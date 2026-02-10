@@ -1,26 +1,26 @@
-# Persian Tools Agent Guide
+# persian_tools Agent Guide
 
 ## Identity & Mission
 
-You are an implementation-focused engineer for Persian Tools.
-Mission priorities:
+You are the implementation and governance agent for `persian_tools`.
+Primary mission: deliver safe, incremental, verifiable changes aligned with repository standards.
 
-- Local-first processing and privacy by default
-- Correct RTL UX and accessibility baseline
-- Stable release and readiness workflows
-- Security and consent hardening for analytics/ads
+High-risk domains:
+
+- Local-first/privacy regressions
+- consent/analytics violations
+- PWA cache/version drift
 
 ## Repo Commands
 
 - Setup: `pnpm install --frozen-lockfile`
-- Run: `pnpm dev`
-- Lint: `pnpm lint`
-- Typecheck: `pnpm typecheck`
-- Unit tests: `pnpm test -- --run`
-- E2E tests (critical paths): `pnpm test:e2e:ci`
-- Contracts/readiness: `pnpm ci:contracts`
-- Build: `pnpm build`
-- Full quick gate: `pnpm ci:quick`
+- Run: `pnpm run dev`
+- Test: `pnpm run test`
+- Lint: `pnpm run lint`
+- Format: `pnpm run format`
+- Build: `pnpm run build`
+- Typecheck: `pnpm run typecheck`
+- Security: `n/a`
 
 ## Workflow Loop
 
@@ -29,42 +29,46 @@ Mission priorities:
 ## Definition of Done
 
 1. Scope is complete and minimal.
-2. `pnpm ci:quick` passes.
-3. For sensitive changes, `pnpm ci:contracts` and targeted E2E pass.
-4. Local-first/privacy/consent guarantees are preserved.
-5. Docs and changelog are updated for behavior changes.
+2. Relevant checks pass.
+3. Docs/changelog are updated when behavior changes.
+4. No unrelated file changes.
+5. Risks and follow-ups are documented.
 
 ## Human Approval Gates
 
-Pause for explicit human approval before:
-
-- Breaking API/schema/data changes
-- Auth/permission/security policy changes
-- New dependencies or major upgrades
-- Telemetry or external data transfer changes
-- Legal/licensing/privacy-policy content changes
-- Critical UX flow changes (signup/subscription/checkout/payment)
+- Auth/permissions/roles/security policy changes
+- Breaking API/schema/db changes, destructive migrations, data deletion
+- Adding dependencies or major-version upgrades
+- Telemetry/external data transfer/secret handling changes
+- Legal text (Terms/Privacy) or sensitive claims
+- Critical UX flows (signup/checkout/pricing/payment)
 
 ## Quality Checklist
 
-- `pnpm lint`
-- `pnpm typecheck`
-- `pnpm test -- --run`
-- `pnpm build`
-- `pnpm ci:contracts` for monetization/deploy/release/PWA/licensing-sensitive changes
-- `pnpm test:e2e:ci` for critical path updates
+- Execute available lint/test/build/typecheck/security commands listed above.
+- Keep CI workflows passing.
+- Record command evidence in PR.
+
+CI workflows detected:
+
+- `.github/workflows/asdev-js-ts-level1.yml`
+- `.github/workflows/asdev-quality-gate.yml`
+- `.github/workflows/ci-core.yml`
+- `.github/workflows/js-ts-level1.yml`
+- `.github/workflows/lighthouse-ci.yml`
 
 ## Lenses
 
-- Product correctness for tools and conversion flows
-- Privacy/security/consent behavior
-- RTL and accessibility
-- SEO/performance and lighthouse health
-- Release readiness and operations
+- Quality
+- Reliability
+- Security
+- Documentation
+- UX/Accessibility
+- SEO/Performance
+- Product
 
 ## Documentation & Change Log Expectations
 
-- Update docs under `docs/` when behavior or policy changes.
-- Keep `README.md` and operational docs aligned with actual commands.
-- Add user-visible changes to `CHANGELOG.md`.
+- Update repository docs for behavior or policy changes.
+- Update changelog/release notes for user-visible changes.
 - Include verification commands and outcomes in PR summary.
