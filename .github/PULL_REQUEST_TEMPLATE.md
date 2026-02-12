@@ -7,6 +7,7 @@
 
 - [ ] `pnpm ci:quick`
 - [ ] additional tests (if needed)
+- [ ] V3 security checklist reviewed: `docs/security/v3-security-checklist.md`
 
 ## Docs
 

@@ -163,6 +163,16 @@ const handled = fromError(new Error('Boom'), 'خطای عمومی');
 - تغییرات ناسازگار باید با نسخه MAJOR منتشر شوند.
 - در صورت نیاز به عملکرد سنگین، از lazy-load استفاده کنید.
 
+## وضعیت API اشتراک (V3)
+
+- مسیرهای `api/subscription/*` در V3 همچنان به‌صورت intentional غیرفعال هستند و پاسخ `410` برمی‌گردانند.
+- این رفتار برای سازگاری backward حفظ شده است و به معنی فعال بودن subscription backend نیست.
+- مسیرهای مرتبط:
+  - `app/api/subscription/checkout/route.ts`
+  - `app/api/subscription/confirm/route.ts`
+  - `app/api/subscription/status/route.ts`
+  - `app/api/subscription/webhook/route.ts`
+
 ## نمونه‌های واقعی داخل مخزن
 
 - قرارداد خروجی `shared/utils` با تست پایدار کنترل می‌شود:
