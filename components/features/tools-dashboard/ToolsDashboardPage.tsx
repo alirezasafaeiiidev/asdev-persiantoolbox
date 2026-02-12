@@ -27,7 +27,7 @@ const financeTools = [
     title: 'محاسبه‌گر سود بانکی',
     description: 'برآورد سود ساده یا مرکب سپرده برای تصمیم‌گیری سریع مالی.',
     path: '/interest',
-    meta: 'به‌زودی',
+    meta: 'TOMAN',
     icon: <IconMoney className="h-7 w-7 text-[var(--color-warning)]" />,
     iconWrapClassName: 'bg-[rgb(var(--color-warning-rgb)/0.14)]',
   },
