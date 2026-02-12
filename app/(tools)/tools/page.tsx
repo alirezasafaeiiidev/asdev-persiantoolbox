@@ -1,3 +1,4 @@
+import FinanceTrustBlock from '@/components/features/finance/FinanceTrustBlock';
 import RelatedFinanceTools from '@/components/features/finance/RelatedFinanceTools';
 import ToolsDashboardPage from '@/components/features/tools-dashboard/ToolsDashboardPage';
 import ToolSeoContent from '@/components/seo/ToolSeoContent';
@@ -18,6 +19,7 @@ export default function ToolsDashboardRoute() {
   return (
     <div className="space-y-10">
       <ToolsDashboardPage />
+      <FinanceTrustBlock compact />
       <RelatedFinanceTools current="hub" />
       {categoryContent && (
         <section className="space-y-6">
