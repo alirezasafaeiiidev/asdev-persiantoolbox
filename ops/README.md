@@ -13,6 +13,7 @@ This folder contains deploy assets for Ubuntu 22.04 with Node.js + PM2 + Nginx.
 - `scripts/deploy/encode-env-file.sh`: تبدیل امن فایل env به base64 برای GitHub Secrets.
 - `scripts/deploy/provision-nginx-site.sh`: ایجاد/فعالسازی vhost برای هر سایت روی VPS چندسایته.
 - `scripts/deploy/generate-post-deploy-report.mjs`: تولید گزارش post-deploy.
+- `scripts/deploy/check-hosting-sync.sh`: audit پورت‌ها + وضعیت storage/cache در میزبانی چندسایته.
 
 ## Server Layout
 
@@ -20,6 +21,7 @@ This folder contains deploy assets for Ubuntu 22.04 with Node.js + PM2 + Nginx.
 - `/var/www/persian-tools/current/<env>` (symlink)
 - `/var/www/persian-tools/shared/env/<env>.env`
 - `/var/www/persian-tools/shared/logs/`
+- پورت رزرو مشترک سایت سوم: `3004/3005`
 
 ## Deploy Example
 
