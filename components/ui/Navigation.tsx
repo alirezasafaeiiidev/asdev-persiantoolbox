@@ -14,6 +14,7 @@ import {
   IconShield,
   IconChevronDown,
 } from '@/shared/ui/icons';
+import BrandLink from '@/components/brand/BrandLink';
 
 const navItems = [
   { label: 'ابزارهای PDF', href: '/pdf-tools', icon: IconPdf },
@@ -56,10 +57,13 @@ export default function Navigation() {
         </nav>
 
         <div className="hidden lg:flex items-center">
-          <Link href="/tools" className="btn btn-primary btn-md px-5">
-            <IconChevronDown className="h-4 w-4 rotate-90" />
-            همه ابزارها
-          </Link>
+          <div className="flex items-center gap-2">
+            <BrandLink className="btn btn-secondary btn-md px-4" />
+            <Link href="/tools" className="btn btn-primary btn-md px-5">
+              <IconChevronDown className="h-4 w-4 rotate-90" />
+              همه ابزارها
+            </Link>
+          </div>
         </div>
 
         <motion.button
@@ -121,6 +125,7 @@ export default function Navigation() {
                 </Link>
               ))}
               <div className="pt-1">
+                <BrandLink className="mb-2 inline-flex w-full items-center justify-center rounded-full border border-[var(--border-light)] px-4 py-3 text-sm font-semibold text-[var(--text-primary)] transition-all duration-[var(--motion-fast)] hover:bg-[var(--surface-2)]" />
                 <Link
                   href="/tools"
                   className="btn btn-primary btn-md w-full justify-center"

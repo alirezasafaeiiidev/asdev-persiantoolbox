@@ -44,6 +44,11 @@ pnpm run build
 - Post-deploy report:
   - `pnpm deploy:post:report -- --base-url=https://persian-tools.ir --environment=production --git-ref=<tag-or-sha>`
 
+## Brand Attribution
+
+- Engineering hub: `https://alirezasafaeidev.ir/engineering`
+- Request review: `https://alirezasafaeidev.ir/engineering/request`
+
 ## License
 
 See `LICENSE`, `LICENSE-COMMERCIAL.md`, and `LICENSE-NONCOMMERCIAL.md`.
