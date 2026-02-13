@@ -37,8 +37,6 @@ const smokeChecks = [
   { path: '/salary', acceptedStatuses: [200] },
   { path: '/date-tools', acceptedStatuses: [200] },
   { path: '/offline', acceptedStatuses: [200] },
-  // Admin route can be intentionally hidden/protected when unauthenticated.
-  { path: '/admin/site-settings', acceptedStatuses: [200, 401, 403, 404] },
 ];
 
 const deriveFallbackUrls = (url) => {

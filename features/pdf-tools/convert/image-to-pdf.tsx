@@ -5,8 +5,6 @@ import Image from 'next/image';
 import { Button, Card } from '@/components/ui';
 import Alert from '@/shared/ui/Alert';
 import { loadPdfLib } from '@/features/pdf-tools/lazy-deps';
-import { recordHistory } from '@/shared/history/recordHistory';
-import RecentHistoryCard from '@/components/features/history/RecentHistoryCard';
 
 const PAGE_SIZES = {
   a4: { width: 595.28, height: 841.89 },
@@ -347,28 +345,12 @@ export default function ImageToPdfPage() {
           {downloadUrl && (
             <Alert variant="success">
               فایل آماده است.{' '}
-              <a
-                className="font-semibold underline"
-                href={downloadUrl}
-                download="images.pdf"
-                onClick={() =>
-                  void recordHistory({
-                    tool: 'image-to-pdf',
-                    inputSummary: `تعداد تصاویر: ${images.length}`,
-                    outputSummary: 'دانلود فایل PDF',
-                  })
-                }
-              >
+              <a className="font-semibold underline" href={downloadUrl} download="images.pdf">
                 دانلود فایل
               </a>
             </Alert>
           )}
         </Card>
-        <RecentHistoryCard
-          title="آخرین عملیات PDF"
-          toolPrefixes={['pdf-']}
-          toolIds={['image-to-pdf']}
-        />
       </div>
     </div>
   );

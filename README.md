@@ -1,50 +1,49 @@
-<!-- asdev:template_id=readme-minimum version=1.0.0 source=standards/docs/readme-minimum.md -->
+# Persian Tools
 
-# Project Name
-
-Short description of the project.
+Minimal, fast, privacy-first Persian utilities (PDF, image, finance, date, text, validation).
 
 ## Scope
 
-- In scope:
-- Out of scope:
+In scope:
+
+- Client-side tools and calculators.
+- SEO-first public pages.
+- Lightweight operational scripts for deploy checks.
+
+Out of scope:
+
+- Accounts, subscriptions, and history.
+- Admin dashboards and monetization flows.
 
 ## Local Development
 
 ```bash
-# setup commands
+pnpm install
+pnpm run dev
 ```
 
 ## Testing
 
 ```bash
-# test commands
+pnpm run lint
+pnpm run typecheck
+pnpm vitest --run
+pnpm run build
 ```
-
-## Contributing
-
-See `CONTRIBUTING.md`.
 
 ## Deployment Ops
 
 - Env templates:
   - `env.staging.example`
   - `env.production.example`
-- Deploy and rollback scripts:
-  - `ops/deploy/deploy.sh`
-  - `ops/deploy/rollback.sh`
-- Deploy workflows:
-  - `.github/workflows/deploy-staging.yml`
-  - `.github/workflows/deploy-production.yml`
 - VPS runbook:
   - `docs/vps-deploy-runbook.md`
-- Encode env for GitHub Secrets:
-  - `pnpm deploy:env:encode -- .env.production.real`
-- Provision Nginx vhost for multi-site hosting:
-  - `pnpm deploy:nginx:provision -- --app-slug <name> --prod-domain <domain> --staging-domain <domain> --prod-port <port> --staging-port <port>`
-- Generate post-deploy report:
-  - `pnpm deploy:post:report -- --base-url=https://persiantoolbox.ir --environment=production --git-ref=<tag-or-sha>`
+- Readiness gates:
+  - `pnpm deploy:readiness:validate`
+  - `pnpm deploy:readiness:run`
+- Post-deploy report:
+  - `pnpm deploy:post:report -- --base-url=https://persian-tools.ir --environment=production --git-ref=<tag-or-sha>`
 
 ## License
 
-State license or internal-use policy.
+See `LICENSE`, `LICENSE-COMMERCIAL.md`, and `LICENSE-NONCOMMERCIAL.md`.

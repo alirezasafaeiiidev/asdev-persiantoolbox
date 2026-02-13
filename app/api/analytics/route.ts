@@ -1,10 +1,5 @@
 import { NextResponse } from 'next/server';
-import {
-  getAnalyticsSummary,
-  ingestAnalyticsEvents,
-  type AnalyticsEvent,
-} from '@/lib/analyticsStore';
-import { requireAdminFromRequest } from '@/lib/server/adminAuth';
+import { ingestAnalyticsEvents, type AnalyticsEvent } from '@/lib/analyticsStore';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -91,20 +86,5 @@ export async function POST(request: Request) {
   }
 
   const summary = await ingestAnalyticsEvents(payload.events);
-  return NextResponse.json({ ok: true, summary });
-}
-
-export async function GET(request: Request) {
-  const adminCheck = await requireAdminFromRequest(request);
-  if (!adminCheck.ok) {
-    return NextResponse.json({ ok: false }, { status: adminCheck.status });
-  }
-
-  const securityError = validateAnalyticsSecurity(request);
-  if (securityError) {
-    return securityError;
-  }
-
-  const summary = await getAnalyticsSummary();
   return NextResponse.json({ ok: true, summary });
 }

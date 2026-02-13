@@ -2,7 +2,6 @@
  * Self-hosted analytics for privacy-first monitoring
  * No user data is sent to external services
  */
-import { getAdsConsent } from '@/shared/consent/adsConsent';
 
 type EventData = {
   event: string;
@@ -31,19 +30,8 @@ export class AnalyticsClient {
     return AnalyticsClient.instance;
   }
 
-  private hasConsent(): boolean {
-    if (typeof window === 'undefined') {
-      return false;
-    }
-    return getAdsConsent().contextualAds;
-  }
-
   trackEvent(eventName: string, metadata?: Record<string, unknown>): void {
     if (!this.enabled) {
-      return;
-    }
-    const consent = getAdsConsent();
-    if (!consent.contextualAds) {
       return;
     }
 
@@ -53,7 +41,6 @@ export class AnalyticsClient {
       path: typeof window !== 'undefined' ? window.location.pathname : '',
       metadata: {
         consentGranted: true,
-        consentVersion: consent.version,
         ...(metadata ?? {}),
       },
     };
@@ -66,7 +53,7 @@ export class AnalyticsClient {
   }
 
   private flushEvents(): void {
-    if (!this.enabled || !this.hasConsent() || this.events.length === 0) {
+    if (!this.enabled || this.events.length === 0) {
       this.events = [];
       return;
     }

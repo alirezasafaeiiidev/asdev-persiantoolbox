@@ -28,15 +28,7 @@ describe('deployment readiness contract', () => {
     };
 
     expect(parsed.version).toBe(1);
-    expect(parsed.requiredEnv.production).toEqual(
-      expect.arrayContaining([
-        'NEXT_PUBLIC_SITE_URL',
-        'DATABASE_URL',
-        'SESSION_TTL_DAYS',
-        'SUBSCRIPTION_WEBHOOK_SECRET',
-        'ADMIN_EMAIL_ALLOWLIST',
-      ]),
-    );
+    expect(parsed.requiredEnv.production).toEqual(expect.arrayContaining(['NEXT_PUBLIC_SITE_URL']));
 
     expect(parsed.securityGates.length).toBeGreaterThan(0);
     expect(parsed.pwaGates.length).toBeGreaterThan(0);

@@ -15,15 +15,8 @@ export default defineConfig({
       exclude: ['node_modules/', 'tests/', '**/*.d.ts', '**/*.config.*', '**/mockData', '**/types'],
       include: [
         'app/api/analytics/route.ts',
-        'app/api/subscription/webhook/route.ts',
-        'lib/server/adminAuth.ts',
-        'lib/server/auth.ts',
         'lib/server/csrf.ts',
-        'lib/server/rateLimit.ts',
-        'lib/server/sessions.ts',
-        'shared/consent/adsConsent.ts',
-        'shared/history/recordHistory.ts',
-        'shared/history/share.ts',
+        'lib/monitoring.ts',
         'shared/utils/**/*.{ts,tsx}',
       ],
       thresholds: {

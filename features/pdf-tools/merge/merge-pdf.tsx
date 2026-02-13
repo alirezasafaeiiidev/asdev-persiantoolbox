@@ -4,8 +4,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card } from '@/components/ui';
 import Alert from '@/shared/ui/Alert';
 import { createPdfWorkerClient, type PdfWorkerClient } from '@/features/pdf-tools/workerClient';
-import { recordHistory } from '@/shared/history/recordHistory';
-import RecentHistoryCard from '@/components/features/history/RecentHistoryCard';
 
 type SelectedFile = {
   file: File;
@@ -199,28 +197,12 @@ export default function MergePdfPage() {
           {downloadUrl && (
             <Alert variant="success">
               فایل آماده است.{' '}
-              <a
-                className="font-semibold underline"
-                href={downloadUrl}
-                download="merged.pdf"
-                onClick={() =>
-                  void recordHistory({
-                    tool: 'pdf-merge',
-                    inputSummary: `تعداد فایل: ${files.length}`,
-                    outputSummary: 'دانلود فایل ادغام‌شده',
-                  })
-                }
-              >
+              <a className="font-semibold underline" href={downloadUrl} download="merged.pdf">
                 دانلود فایل
               </a>
             </Alert>
           )}
         </Card>
-        <RecentHistoryCard
-          title="آخرین عملیات PDF"
-          toolPrefixes={['pdf-']}
-          toolIds={['image-to-pdf']}
-        />
       </div>
     </div>
   );

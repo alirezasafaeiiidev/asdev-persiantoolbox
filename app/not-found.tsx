@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Navigation from '@/components/ui/Navigation';
 import Footer from '@/components/ui/Footer';
 import Container from '@/components/ui/Container';
-import PopularTools from '@/components/home/PopularTools';
 
 export default function NotFound() {
   return (
@@ -28,8 +27,6 @@ export default function NotFound() {
               </Link>
             </div>
           </section>
-
-          <PopularTools />
         </Container>
       </main>
       <Footer />

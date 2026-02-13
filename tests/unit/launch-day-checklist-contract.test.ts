@@ -24,7 +24,13 @@ describe('launch day checklist contract', () => {
     expect(parsed.launchOutputs.length).toBeGreaterThan(0);
 
     const ids = parsed.smokeSuites.map((suite) => suite.id);
-    expect(ids).toEqual(expect.arrayContaining(['launch_smoke_routes', 'launch_smoke_consent']));
+    expect(ids).toEqual(
+      expect.arrayContaining([
+        'launch_smoke_core',
+        'launch_smoke_build',
+        'launch_smoke_lighthouse',
+      ]),
+    );
 
     const hasExtended = parsed.smokeSuites.some((suite) => suite.tier === 'extended');
     expect(hasExtended).toBe(true);

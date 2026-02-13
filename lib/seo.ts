@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const siteName = 'جعبه ابزار فارسی';
 export const siteDescription =
-  'مجموعه کامل و رایگان ابزارهای آنلاین برای کاربران فارسی‌زبان شامل ابزارهای PDF، محاسبات مالی، پردازش تصویر و ابزارهای کاربردی دیگر';
+  'ابزارهای رایگان فارسی برای PDF، تصویر، تاریخ، متن و محاسبات مالی با پردازش محلی و بدون ثبت‌نام';
 export const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] ?? 'http://localhost:3000';
 export const defaultOgImage = '/og-default.svg';
 

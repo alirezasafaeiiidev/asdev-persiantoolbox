@@ -63,7 +63,6 @@
     "bench/**/*.ts",
     "public/**/*.js",
     "proxy.ts",
-    "playwright.config.ts",
     "tailwind.config.ts",
     "tsup.config.ts",
     "vitest.config.ts",

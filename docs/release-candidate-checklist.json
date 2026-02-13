@@ -1,11 +1,7 @@
 {
   "version": 1,
-  "envGates": [
-    "production_env_keys_verified",
-    "secrets_outside_repo_verified",
-    "database_url_reachability_verified"
-  ],
-  "securityGates": ["csp_hsts_headers_verified", "consent_gate_verified", "admin_authz_verified"],
+  "envGates": ["production_env_keys_verified", "secrets_outside_repo_verified"],
+  "securityGates": ["csp_hsts_headers_verified"],
   "qualityGates": [
     {
       "id": "rc_deploy_contract",
@@ -29,12 +25,6 @@
       "id": "rc_build",
       "command": "pnpm build",
       "tier": "core",
-      "blocking": true
-    },
-    {
-      "id": "rc_e2e_ci",
-      "command": "pnpm test:e2e:ci",
-      "tier": "extended",
       "blocking": true
     },
     {

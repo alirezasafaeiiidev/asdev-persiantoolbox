@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "generatedAt": "2026-02-12T19:15:16.924Z",
+  "tier": "core",
+  "overallStatus": "failed",
+  "steps": [
+    {
+      "id": "rc_deploy_contract",
+      "command": "pnpm deploy:readiness:validate",
+      "status": "passed",
+      "tier": "core",
+      "blocking": true,
+      "durationMs": 342,
+      "output": "> persian-tools@2.0.0 deploy:readiness:validate /home/dev/Project_Me/persian_tools\n> node scripts/deploy/validate-readiness-gates.mjs\n\n[deploy] readiness gates contract valid (4 quality gates, 2 security gates)"
+    },
+    {
+      "id": "rc_deploy_core_run",
+      "command": "pnpm deploy:readiness:run",
+      "status": "failed",
+      "tier": "core",
+      "blocking": true,
+      "durationMs": 23400,
+      "output": "node:internal/errors:985\n  const err = new Error(message);\n              ^\n\nError: Command failed: pnpm build\n⨯ Unable to acquire lock at /home/dev/Project_Me/persian_tools/.next/lock, is another instance of next build running?\n\n    at genericNodeError (node:internal/errors:985:15)\n    at wrappedFn (node:internal/errors:539:14)\n    at checkExecSyncError (node:child_process:925:11)\n    at execSync (node:child_process:997:15)\n    at file:///home/dev/Project_Me/persian_tools/scripts/deploy/run-readiness-gates.mjs:17:20\n    at ModuleJob.run (node:internal/modules/esm/module_job:413:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  status: 1,\n  signal: null,\n  output: [\n    null,\n    '\\n' +\n      '> persian-tools@2.0.0 build /home/dev/Project_Me/persian_tools\\n' +\n      '> pnpm generate:og && next build\\n' +\n      '\\n' +\n      '\\n' +\n      '> persian-tools@2.0.0 generate:og /home/dev/Project_Me/persian_tools\\n' +\n      '> node scripts/generate-og-images.mjs\\n' +\n      '\\n' +\n      'Generated 8 opengraph images.\\n' +\n      '  Suggestion: If you intended to restart next build, terminate the other process, and then try again.\\n' +\n      ' ELIFECYCLE  Command failed with exit code 1.\\n',\n    '⨯ Unable to acquire lock at /home/dev/Project_Me/persian_tools/.next/lock, is another instance of next build running?\\n'\n  ],\n  pid: 19433,\n  stdout: '\\n' +\n    '> persian-tools@2.0.0 build /home/dev/Project_Me/persian_tools\\n' +\n    '> pnpm generate:og && next build\\n' +\n    '\\n' +\n    '\\n' +\n    '> persian-tools@2.0.0 generate:og /home/dev/Project_Me/persian_tools\\n' +\n    '> node scripts/generate-og-images.mjs\\n' +\n    '\\n' +\n    'Generated 8 opengraph images.\\n' +\n    '  Suggestion: If you intended to restart next build, terminate the other process, and then try again.\\n' +\n    ' ELIFECYCLE  Command failed with exit code 1.\\n',\n  stderr: '⨯ Unable to acquire lock at /home/dev/Project_Me/persian_tools/.next/lock, is another instance of next build running?\\n'\n}\n\nNode.js v24.13.0"
+    }
+  ],
+  "releaseRecommendation": "hold"
+}

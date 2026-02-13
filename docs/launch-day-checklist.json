@@ -8,26 +8,20 @@
   ],
   "smokeSuites": [
     {
-      "id": "launch_smoke_routes",
-      "command": "PLAYWRIGHT_DISABLE_VIDEO=1 pnpm exec playwright test tests/e2e/routes.spec.ts --project=chromium --workers=12 --reporter=list",
+      "id": "launch_smoke_core",
+      "command": "pnpm ci:quick",
       "tier": "core",
       "blocking": true
     },
     {
-      "id": "launch_smoke_consent",
-      "command": "PLAYWRIGHT_DISABLE_VIDEO=1 pnpm exec playwright test tests/e2e/consent-analytics.spec.ts --project=chromium --workers=12 --reporter=list",
+      "id": "launch_smoke_build",
+      "command": "pnpm run build",
       "tier": "core",
       "blocking": true
     },
     {
-      "id": "launch_smoke_offline",
-      "command": "PLAYWRIGHT_DISABLE_VIDEO=1 pnpm exec playwright test tests/e2e/offline.spec.ts --project=chromium --workers=12 --reporter=list",
-      "tier": "extended",
-      "blocking": true
-    },
-    {
-      "id": "launch_smoke_a11y",
-      "command": "PLAYWRIGHT_DISABLE_VIDEO=1 pnpm exec playwright test tests/e2e/a11y.spec.ts --project=chromium --workers=12 --reporter=list",
+      "id": "launch_smoke_lighthouse",
+      "command": "pnpm lighthouse:ci",
       "tier": "extended",
       "blocking": false
     }

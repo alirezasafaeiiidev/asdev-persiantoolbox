@@ -7,7 +7,6 @@ import Container from '@/shared/ui/Container';
 import {
   IconPdf,
   IconImage,
-  IconCalculator,
   IconMenu,
   IconX,
   IconCalendar,
@@ -19,10 +18,9 @@ import {
 const navItems = [
   { label: 'ابزارهای PDF', href: '/pdf-tools', icon: IconPdf },
   { label: 'ابزارهای تصویر', href: '/image-tools', icon: IconImage },
-  { label: 'ابزارهای مالی', href: '/tools', icon: IconCalculator },
   { label: 'ابزارهای تاریخ', href: '/date-tools', icon: IconCalendar },
   { label: 'ابزارهای متنی', href: '/text-tools', icon: IconZap },
-  { label: 'ابزارهای اعتبارسنجی', href: '/validation-tools', icon: IconShield },
+  { label: 'اعتبارسنجی', href: '/validation-tools', icon: IconShield },
 ];
 
 export default function Navigation() {

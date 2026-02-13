@@ -351,7 +351,7 @@ Codex را موظف کن:
 - [ ] بررسی تصاویر و استفاده صحیح از `next/image`
 - [ ] سخت‌گیری TypeScript و حذف any
 - [ ] سیاست CSP/HSTS در docs/operations.md
-- [ ] تست‌های vitest/playwright برای مسیرهای حیاتی ابزارها
+- [ ] تست‌های vitest برای مسیرهای حیاتی ابزارها
 
 ---
 

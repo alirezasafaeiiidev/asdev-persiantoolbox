@@ -4,8 +4,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card } from '@/components/ui';
 import Alert from '@/shared/ui/Alert';
 import { createPdfWorkerClient, type PdfWorkerClient } from '@/features/pdf-tools/workerClient';
-import { recordHistory } from '@/shared/history/recordHistory';
-import RecentHistoryCard from '@/components/features/history/RecentHistoryCard';
 
 const POSITIONS = [
   { id: 'center', label: 'مرکز' },
@@ -286,13 +284,6 @@ export default function AddWatermarkPage() {
                   className="font-semibold underline"
                   href={downloadUrl}
                   download="watermarked.pdf"
-                  onClick={() =>
-                    void recordHistory({
-                      tool: 'pdf-watermark',
-                      inputSummary: `متن واترمارک: ${text.trim()}`,
-                      outputSummary: `دانلود فایل با حجم ${formatBytes(resultSize)}`,
-                    })
-                  }
                 >
                   دانلود فایل
                 </a>
@@ -300,11 +291,6 @@ export default function AddWatermarkPage() {
             </Alert>
           )}
         </Card>
-        <RecentHistoryCard
-          title="آخرین عملیات PDF"
-          toolPrefixes={['pdf-']}
-          toolIds={['image-to-pdf']}
-        />
       </div>
     </div>
   );

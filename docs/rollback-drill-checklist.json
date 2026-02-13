@@ -12,30 +12,6 @@
       ],
       "successCriteria": ["critical_routes_healthy", "error_rate_normalized"],
       "evidenceRequired": true
-    },
-    {
-      "id": "RB-002",
-      "name": "Database rollback compatibility check",
-      "ownerRole": "quality_engineer",
-      "steps": [
-        "verify_migration_rollback_plan",
-        "run_schema_compat_checks",
-        "validate_read_write_paths"
-      ],
-      "successCriteria": ["no_data_loss_detected", "core_queries_responding"],
-      "evidenceRequired": true
-    },
-    {
-      "id": "RB-003",
-      "name": "Consent and analytics safety rollback",
-      "ownerRole": "ux_accessibility",
-      "steps": [
-        "verify_consent_banner_behavior",
-        "verify_ads_block_without_consent",
-        "verify_analytics_ingest_guard"
-      ],
-      "successCriteria": ["privacy_guardrails_enforced", "no_unconsented_tracking"],
-      "evidenceRequired": true
     }
   ],
   "reporting": {

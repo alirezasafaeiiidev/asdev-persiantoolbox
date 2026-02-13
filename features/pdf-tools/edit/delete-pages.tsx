@@ -5,8 +5,6 @@ import { Button, Card } from '@/components/ui';
 import Alert from '@/shared/ui/Alert';
 import { createPdfWorkerClient, type PdfWorkerClient } from '@/features/pdf-tools/workerClient';
 import { parsePageRanges } from '@/features/pdf-tools/utils/pageRanges';
-import { recordHistory } from '@/shared/history/recordHistory';
-import RecentHistoryCard from '@/components/features/history/RecentHistoryCard';
 
 const buildRemainingPages = (totalPages: number, removePages: number[]) => {
   const removeSet = new Set(removePages);
@@ -225,28 +223,12 @@ export default function DeletePagesPage() {
           {downloadUrl && (
             <Alert variant="success">
               فایل آماده است.{' '}
-              <a
-                className="font-semibold underline"
-                href={downloadUrl}
-                download="cleaned.pdf"
-                onClick={() =>
-                  void recordHistory({
-                    tool: 'pdf-delete-pages',
-                    inputSummary: `حذف صفحات: ${pagesInput}`,
-                    outputSummary: 'دانلود فایل ویرایش‌شده',
-                  })
-                }
-              >
+              <a className="font-semibold underline" href={downloadUrl} download="cleaned.pdf">
                 دانلود فایل
               </a>
             </Alert>
           )}
         </Card>
-        <RecentHistoryCard
-          title="آخرین عملیات PDF"
-          toolPrefixes={['pdf-']}
-          toolIds={['image-to-pdf']}
-        />
       </div>
     </div>
   );

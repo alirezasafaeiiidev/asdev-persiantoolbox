@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { isSameOrigin } from '@/lib/server/csrf';
 
 describe('csrf same-origin guard', () => {
-  const baseUrl = 'https://persian-tools.ir/api/auth/login';
+  const baseUrl = 'https://persian-tools.ir/api/analytics';
 
   it('allows when origin matches', () => {
     const request = new Request(baseUrl, {

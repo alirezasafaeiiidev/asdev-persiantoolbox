@@ -7,8 +7,6 @@ import { Button, Card } from '@/components/ui';
 import Alert from '@/shared/ui/Alert';
 import { toEnglishDigits } from '@/shared/utils/numbers';
 import { loadJsZip, loadPdfJs } from '@/features/pdf-tools/lazy-deps';
-import { recordHistory } from '@/shared/history/recordHistory';
-import RecentHistoryCard from '@/components/features/history/RecentHistoryCard';
 
 type OutputImage = {
   page: number;
@@ -376,13 +374,6 @@ export default function PdfToImagePage() {
                   className="text-sm font-semibold underline text-[var(--color-success)]"
                   href={zipUrl}
                   download={`pdf-pages-${Date.now()}.zip`}
-                  onClick={() =>
-                    void recordHistory({
-                      tool: 'pdf-to-image',
-                      inputSummary: `ZIP | تعداد صفحات: ${outputs.length}`,
-                      outputSummary: 'دانلود فایل ZIP تصاویر',
-                    })
-                  }
                 >
                   دانلود فایل ZIP
                 </a>
@@ -412,13 +403,6 @@ export default function PdfToImagePage() {
                       className="font-semibold underline"
                       href={item.url}
                       download={`page-${item.page}.${format}`}
-                      onClick={() =>
-                        void recordHistory({
-                          tool: 'pdf-to-image',
-                          inputSummary: `صفحه ${item.page}`,
-                          outputSummary: `دانلود تصویر صفحه ${item.page}`,
-                        })
-                      }
                     >
                       دانلود
                     </a>
@@ -428,11 +412,6 @@ export default function PdfToImagePage() {
             </div>
           </Card>
         )}
-        <RecentHistoryCard
-          title="آخرین عملیات PDF"
-          toolPrefixes={['pdf-']}
-          toolIds={['image-to-pdf']}
-        />
       </div>
     </div>
   );

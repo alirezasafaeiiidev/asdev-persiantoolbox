@@ -7,8 +7,6 @@ import { formatBytesFa, formatPercentFa } from './utils/format';
 import { formatNumberFa, parseLooseNumber } from '@/shared/utils/numbers';
 import ImageDropzone from './components/ImageDropzone';
 import { useImageToolsWorker } from './hooks/useImageToolsWorker';
-import { recordHistory } from '@/shared/history/recordHistory';
-import RecentHistoryCard from '@/components/features/history/RecentHistoryCard';
 import type {
   CompressionSettings,
   ImageCompressionPreset,
@@ -524,15 +522,6 @@ export default function ImageToolsPage() {
                           className="font-semibold underline"
                           href={item.result.url}
                           download={`compressed-${item.file.name.replace(/\s+/g, '-')}.${outputExtension}`}
-                          onClick={() =>
-                            void recordHistory({
-                              tool: 'image-compress',
-                              inputSummary: `فایل: ${item.file.name}`,
-                              outputSummary: `دانلود فایل با حجم ${formatBytesFa(
-                                item.result?.size ?? 0,
-                              )}`,
-                            })
-                          }
                         >
                           دانلود فایل
                         </a>
@@ -679,8 +668,6 @@ export default function ImageToolsPage() {
           </div>
         </Card>
       </section>
-
-      <RecentHistoryCard title="آخرین عملیات تصویر" toolPrefixes={['image-']} />
     </div>
   );
 }

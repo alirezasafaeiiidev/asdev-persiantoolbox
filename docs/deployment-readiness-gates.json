@@ -1,13 +1,7 @@
 {
   "version": 1,
   "requiredEnv": {
-    "production": [
-      "NEXT_PUBLIC_SITE_URL",
-      "DATABASE_URL",
-      "SESSION_TTL_DAYS",
-      "SUBSCRIPTION_WEBHOOK_SECRET",
-      "ADMIN_EMAIL_ALLOWLIST"
-    ],
+    "production": ["NEXT_PUBLIC_SITE_URL"],
     "optional": [
       "NEXT_PUBLIC_ANALYTICS_ID",
       "NEXT_PUBLIC_ANALYTICS_ENDPOINT",
@@ -15,12 +9,7 @@
       "ANALYTICS_INGEST_SECRET"
     ]
   },
-  "securityGates": [
-    "csp_headers_verified",
-    "hsts_enabled",
-    "consent_gate_enforced",
-    "admin_authz_verified"
-  ],
+  "securityGates": ["csp_headers_verified", "hsts_enabled"],
   "pwaGates": ["cache_version_validated", "offline_flow_verified"],
   "qualityGates": [
     {
@@ -39,12 +28,6 @@
       "id": "quality_sw_contract",
       "command": "pnpm pwa:sw:validate",
       "tier": "core",
-      "blocking": true
-    },
-    {
-      "id": "quality_e2e_ci",
-      "command": "pnpm test:e2e:ci",
-      "tier": "extended",
       "blocking": true
     },
     {

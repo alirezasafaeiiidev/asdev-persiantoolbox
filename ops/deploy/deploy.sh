@@ -130,8 +130,6 @@ rsync -a --delete \
   --exclude '.github' \
   --exclude 'node_modules' \
   --exclude 'coverage' \
-  --exclude 'playwright-report' \
-  --exclude 'test-results' \
   --exclude '.next/cache' \
   --exclude 'docs/snapshots' \
   "$SOURCE_DIR/" "$RELEASE_DIR/"

@@ -182,13 +182,13 @@ function DatePartsFields({
   return (
     <div className="space-y-2">
       <div className="text-sm font-medium text-[var(--text-primary)]">{label}</div>
-      <div className="grid gap-3 md:grid-cols-[0.8fr_1.5fr_0.9fr]">
+      <div className="grid gap-3 sm:grid-cols-3">
         <div className="space-y-1">
-          <div className="text-xs text-[var(--text-muted)]">روز</div>
+          <div className="text-xs font-semibold text-[var(--text-muted)]">روز</div>
           <select
             value={value.day}
             onChange={(event) => onChange({ ...value, day: event.target.value })}
-            className="input-field"
+            className="h-12 w-full rounded-2xl border border-[var(--border-medium)] bg-[var(--surface-1)] px-4 text-base font-semibold text-[var(--text-primary)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           >
             {Array.from({ length: 31 }).map((_, index) => {
               const day = index + 1;
@@ -201,11 +201,11 @@ function DatePartsFields({
           </select>
         </div>
         <div className="space-y-1">
-          <div className="text-xs text-[var(--text-muted)]">ماه</div>
+          <div className="text-xs font-semibold text-[var(--text-muted)]">ماه</div>
           <select
             value={value.month}
             onChange={(event) => onChange({ ...value, month: event.target.value })}
-            className="input-field"
+            className="h-12 w-full rounded-2xl border border-[var(--border-medium)] bg-[var(--surface-1)] px-4 text-base font-semibold text-[var(--text-primary)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           >
             {monthLabels.map((monthLabel, index) => (
               <option key={monthLabel} value={index + 1}>
@@ -215,7 +215,7 @@ function DatePartsFields({
           </select>
         </div>
         <div className="space-y-1">
-          <div className="text-xs text-[var(--text-muted)]">سال</div>
+          <div className="text-xs font-semibold text-[var(--text-muted)]">سال</div>
           <input
             value={value.year}
             onChange={(event) =>
@@ -224,7 +224,7 @@ function DatePartsFields({
                 year: toEnglishDigits(event.target.value).replace(/\D/g, '').slice(0, 4),
               })
             }
-            className="input-field ltr-num"
+            className="h-12 w-full rounded-2xl border border-[var(--border-medium)] bg-[var(--surface-1)] px-4 text-base font-semibold text-[var(--text-primary)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ltr-num"
             inputMode="numeric"
             placeholder={calendar === 'gregorian' ? '2024' : '1404'}
           />
