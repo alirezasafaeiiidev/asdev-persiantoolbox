@@ -12,6 +12,12 @@
 - Dropped Storybook, Typedoc, and MCP Postgres dependencies.
 - Simplified ops/deploy documentation and readiness gates.
 - Cleaned ad/consent and monetization artifacts from codebase.
+- Added minimal brand attribution standard:
+  - `lib/brand.ts`
+  - `components/brand/BrandFooter.tsx`
+  - `components/brand/BrandLink.tsx`
+- Updated navigation and footer to include canonical engineering request/hub links.
+- Updated README with `Brand Attribution` section.
 
 ### Added
 
