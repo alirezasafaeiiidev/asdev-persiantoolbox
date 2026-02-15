@@ -28,3 +28,7 @@ docs/api/
 # Lighthouse reports (keep local only)
 /reports/lighthouse/
 .lighthouseci/
+
+.env
+.env.*
+!.env.example
