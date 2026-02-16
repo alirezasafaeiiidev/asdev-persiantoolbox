@@ -24,6 +24,7 @@
     "test:coverage": "vitest --coverage",
     "ci:quick": "pnpm lint && pnpm typecheck && pnpm gate:local-first && pnpm vitest --run",
     "smoke:local": "node scripts/quality/run-local-smoke.mjs",
+    "predeploy:smoke": "SMOKE_HOST=127.0.0.1 SMOKE_PORT=3100 pnpm smoke:local",
     "ci:contracts": "pnpm monetization:review:validate && pnpm monetization:ops:validate && pnpm monetization:alerting:validate && pnpm monetization:site-settings:validate && pnpm deploy:readiness:validate && pnpm release:rc:validate && pnpm release:rollback:validate && pnpm release:launch:validate && pnpm release:state:validate && pnpm pwa:sw:validate && pnpm licensing:validate",
     "bench": "vitest bench",
     "test:e2e:ui": "playwright test --ui",
