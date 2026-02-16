@@ -1,0 +1,76 @@
+[mcp]
+allowed_roots = [
+  "/home/dev/Project_Me/persian_tools",
+  "/home/dev/.codex",
+  "/home/dev/.cache/codex"
+]
+
+denylist = [
+  "/home/dev/.ssh",
+  "/home/dev/.gnupg",
+  "/home/dev/.aws",
+  "/home/dev/.codex/secret_keys"
+]
+
+[mcp.servers.codex_integration]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/mcp-server-everything"
+args = ["stdio"]
+
+[mcp.servers.codex_integration.env]
+CODEX_WORKSPACE = "/home/dev/Project_Me/persian_tools"
+MCP_LOG_LEVEL = "INFO"
+OPENAI_API_KEY = "${CODEX_API_KEY_2026}"
+
+[mcp.servers.filesystem]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/mcp-server-filesystem"
+args = [
+  "/home/dev/Project_Me/persian_tools",
+  "/home/dev/.codex"
+]
+
+[mcp.servers.git]
+enabled = true
+command = "/usr/bin/mcp-server-git"
+
+[mcp.servers.git.env]
+PROJECT_PATH = "/home/dev/Project_Me/persian_tools"
+
+[mcp.servers.shell]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/codex-shell-tool-mcp"
+args = []
+
+[mcp.servers.postgres]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/mcp-server-postgres"
+args = ["${DATABASE_URL}"]
+
+[mcp.servers.postgres.env]
+
+[mcp.servers.memory]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/mcp-server-memory"
+args = []
+
+[mcp.servers.memory.env]
+MEMORY_FILE_PATH = "/home/dev/.codex/memory/persian-tools-memory.jsonl"
+
+[mcp.servers.sequential_thinking]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/mcp-server-sequential-thinking"
+args = []
+
+[mcp.servers.playwright]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/mcp-server-everything"
+args = ["stdio"]
+
+[mcp.servers.github]
+enabled = true
+command = "/home/dev/Project_Me/persian_tools/node_modules/.bin/mcp-server-github"
+args = []
+
+[mcp.servers.github.env]
+GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_PERSONAL_ACCESS_TOKEN}"

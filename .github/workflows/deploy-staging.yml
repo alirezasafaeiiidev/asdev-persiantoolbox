@@ -1,0 +1,172 @@
+name: deploy-staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: staging
+    env:
+      APP_SLUG: persian-tools
+      DEPLOY_BASE_DIR: /var/www/persian-tools
+      SSH_OPTS: -o ServerAliveInterval=30 -o ServerAliveCountMax=10 -o TCPKeepAlive=yes
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute release id
+        id: meta
+        run: echo "release_id=staging-${GITHUB_RUN_ID}-$(git rev-parse --short=12 HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.15.0 --activate
+          pnpm -v
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Quality gates
+        run: |
+          pnpm ci:quick
+          pnpm ci:contracts
+
+      - name: Build
+        run: pnpm build
+
+      - name: Package release
+        run: |
+          RELEASE_ID="${{ steps.meta.outputs.release_id }}"
+          ARCHIVE_PATH="/tmp/persian-tools-${RELEASE_ID}.tar.gz"
+          tar -czf "${ARCHIVE_PATH}" \
+            --exclude=.git \
+            --exclude=.github \
+            --exclude=node_modules \
+            --exclude=coverage \
+            --exclude=playwright-report \
+            --exclude=test-results \
+            --exclude=.next/cache \
+            --exclude=docs/snapshots \
+            .
+
+      - name: Configure SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "${{ secrets.DEPLOY_SSH_PORT }}" -H "${{ secrets.DEPLOY_SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Remote preflight checks
+        run: |
+          ssh ${SSH_OPTS} -p "${{ secrets.DEPLOY_SSH_PORT }}" "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}" "
+            set -euo pipefail
+            command -v node >/dev/null
+            command -v pnpm >/dev/null
+            command -v pm2 >/dev/null
+            command -v rsync >/dev/null
+            mkdir -p '${DEPLOY_BASE_DIR}/tmp' '${DEPLOY_BASE_DIR}/shared/env' '${DEPLOY_BASE_DIR}/shared/logs'
+          "
+
+      - name: Upload artifact and environment file
+        run: |
+          RELEASE_ID="${{ steps.meta.outputs.release_id }}"
+          ARCHIVE_PATH="/tmp/persian-tools-${RELEASE_ID}.tar.gz"
+          scp ${SSH_OPTS} -P "${{ secrets.DEPLOY_SSH_PORT }}" \
+            "${ARCHIVE_PATH}" \
+            "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/tmp/persian-tools-${RELEASE_ID}.tar.gz"
+
+          echo "${{ secrets.STAGING_ENV_FILE_B64 }}" | base64 --decode > staging.env
+
+          scp ${SSH_OPTS} -P "${{ secrets.DEPLOY_SSH_PORT }}" \
+            staging.env \
+            "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/tmp/persian-tools-staging.env"
+
+      - name: Deploy on VPS
+        run: |
+          RELEASE_ID="${{ steps.meta.outputs.release_id }}"
+          ssh ${SSH_OPTS} -p "${{ secrets.DEPLOY_SSH_PORT }}" "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}" "
+            set -euo pipefail
+            BASE='${DEPLOY_BASE_DIR}'
+            RELEASE='${RELEASE_ID}'
+            TMP_DIR=\"\$BASE/tmp/\$RELEASE\"
+            ARCHIVE_PATH=\"/tmp/persian-tools-\$RELEASE.tar.gz\"
+            cleanup() {
+              rm -rf \"\$TMP_DIR\" \"\$ARCHIVE_PATH\"
+            }
+            trap cleanup EXIT
+
+            mkdir -p \"\$TMP_DIR\" \"\$BASE/shared/env\"
+            mv /tmp/persian-tools-staging.env \"\$BASE/shared/env/staging.env\"
+            chmod 600 \"\$BASE/shared/env/staging.env\"
+
+            tar -xzf \"\$ARCHIVE_PATH\" -C \"\$TMP_DIR\"
+            chmod +x \"\$TMP_DIR/ops/deploy/deploy.sh\"
+
+            \"\$TMP_DIR/ops/deploy/deploy.sh\" \
+              --app-slug \"${APP_SLUG}\" \
+              --env staging \
+              --base-dir \"\$BASE\" \
+              --source-dir \"\$TMP_DIR\" \
+              --release-id \"\$RELEASE\" \
+              --keep-releases 3 \
+              --run-migrations true
+          "
+
+      - name: Generate staging post-deploy report
+        timeout-minutes: 8
+        run: |
+          REPORT_NAME="post-deploy-staging-${{ github.run_id }}.md"
+          REMOTE_REPORT="/tmp/${REPORT_NAME}"
+          LOCAL_REPORT="docs/deployment/reports/${REPORT_NAME}"
+
+          mkdir -p docs/deployment/reports
+
+          ssh ${SSH_OPTS} -p "${{ secrets.DEPLOY_SSH_PORT }}" "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}" "
+            set -euo pipefail
+            cd '${DEPLOY_BASE_DIR}/current/staging'
+            set -a
+            source '${DEPLOY_BASE_DIR}/shared/env/staging.env'
+            set +a
+            node scripts/deploy/generate-post-deploy-report.mjs \
+              --base-url='https://staging.persiantoolbox.ir' \
+              --environment=staging \
+              --git-ref='$(git rev-parse --short=12 HEAD)' \
+              --workflow-run-url='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
+              --deployer='${{ github.actor }}' \
+              --output=\"${REMOTE_REPORT}\" \
+              --strict=false \
+              --migration-executed=true \
+              --backup-path='${BACKUP_DIR}' \
+              --backup-max-age-hours=72 \
+              --retry-count=1 \
+              --retry-delay-ms=400 \
+              --timeout-ms=5000
+          "
+
+          scp ${SSH_OPTS} -P "${{ secrets.DEPLOY_SSH_PORT }}" \
+            "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:${REMOTE_REPORT}" \
+            "${LOCAL_REPORT}"
+
+          ssh ${SSH_OPTS} -p "${{ secrets.DEPLOY_SSH_PORT }}" "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}" "rm -f '${REMOTE_REPORT}'"
+
+      - name: Upload staging post-deploy report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: staging-post-deploy-report
+          path: docs/deployment/reports/post-deploy-staging-${{ github.run_id }}.md
+          if-no-files-found: warn

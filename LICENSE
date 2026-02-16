@@ -1,0 +1,21 @@
+Persian Tools License Selector
+
+Current branch (`release/v2-license-prep`) follows dual-license boundary for `>= v2.0.0`:
+
+1. Non-Commercial: `LICENSE-NONCOMMERCIAL.md`
+2. Commercial: `LICENSE-COMMERCIAL.md` + `COMMERCIAL.md`
+
+Version boundary:
+
+- `<= v1.1.x`: MIT (historical releases remain MIT licensed)
+- `>= v2.0.0`: Dual-license model
+
+Trademark and branding:
+
+- `TRADEMARKS.md`
+
+Contributor governance:
+
+- `DCO.md`
+- `docs/licensing/cla-individual.md`
+- `docs/licensing/cla-corporate.md`

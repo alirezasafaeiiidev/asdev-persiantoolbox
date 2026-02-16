@@ -1,0 +1,30 @@
+node_modules
+dist
+.next
+.vite
+coverage
+.DS_Store
+*.tsbuildinfo
+var/
+docs/api
+docs/api/
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Local MCP logs
+.setting/
+.mcp-logs/
+
+# Lighthouse reports (keep local only)
+/reports/lighthouse/
+.lighthouseci/
