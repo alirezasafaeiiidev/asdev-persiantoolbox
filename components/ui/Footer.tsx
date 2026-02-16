@@ -22,6 +22,13 @@ export default async function Footer() {
               درخواست ابزار اختصاصی
             </Link>
             <span aria-hidden="true" className="h-3 w-px bg-[var(--border-light)]" />
+            <Link
+              href="/developers"
+              className="rounded-full border border-transparent px-2.5 py-1.5 transition-colors hover:border-[var(--border-light)] hover:text-[var(--text-primary)]"
+            >
+              Developers
+            </Link>
+            <span aria-hidden="true" className="h-3 w-px bg-[var(--border-light)]" />
             <a
               href={orderHref}
               target={orderHref.startsWith('/') ? undefined : '_blank'}

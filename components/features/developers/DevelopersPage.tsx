@@ -6,22 +6,22 @@ import { IconZap, IconShield, IconCalculator, IconCalendar } from '@/shared/ui/i
 const installCommands = [
   {
     title: 'نصب با pnpm',
-    command: 'pnpm add persian-tools',
+    command: 'pnpm add persiantoolbox',
   },
   {
     title: 'نصب با npm',
-    command: 'npm install persian-tools',
+    command: 'npm install persiantoolbox',
   },
   {
     title: 'نصب با yarn',
-    command: 'yarn add persian-tools',
+    command: 'yarn add persiantoolbox',
   },
 ];
 
 const usageSamples = [
   {
     title: 'اعداد و تبدیل‌ها',
-    code: `import { parseLooseNumber, numberToWordsFa } from 'persian-tools';
+    code: `import { parseLooseNumber, numberToWordsFa } from 'persiantoolbox';
 
 const parsed = parseLooseNumber('۱۲٬۳۴۵٫۶۷');
 const words = numberToWordsFa(parsed ?? 0);
@@ -29,7 +29,7 @@ console.log(parsed, words);`,
   },
   {
     title: 'تاریخ و تقویم',
-    code: `import { convertDate, formatPersianDate } from 'persian-tools';
+    code: `import { convertDate, formatPersianDate } from 'persiantoolbox';
 
 const result = convertDate({
   from: 'jalali',
@@ -42,7 +42,7 @@ console.log(result);`,
   },
   {
     title: 'اعتبارسنجی ایرانی',
-    code: `import { isValidNationalId, isValidIranianMobile } from 'persian-tools';
+    code: `import { isValidNationalId, isValidIranianMobile } from 'persiantoolbox';
 
 console.log(isValidNationalId('0010350829'));
 console.log(isValidIranianMobile('09123456789'));`,
@@ -121,7 +121,7 @@ export default function DevelopersPage() {
         <Card className="p-6 space-y-4">
           <div className="text-lg font-black text-[var(--text-primary)]">نصب کتابخانه</div>
           <p className="text-sm text-[var(--text-muted)]">
-            بسته‌ی persian-tools را مستقیماً در پروژه نصب کنید و از ماژول‌ها استفاده کنید.
+            بسته‌ی persiantoolbox را مستقیماً در پروژه نصب کنید و از ماژول‌ها استفاده کنید.
           </p>
           <div className="space-y-3">
             {installCommands.map((item) => (
