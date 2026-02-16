@@ -123,3 +123,20 @@ jobs:
           name: deployment-readiness-summary
           path: docs/deployment/reports/readiness-summary-*.json
           if-no-files-found: warn
+
+  release-dod-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.15.0 --activate
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm release:dod:validate
+      - run: pnpm qa:matrix:generate
+      - run: git diff --exit-code

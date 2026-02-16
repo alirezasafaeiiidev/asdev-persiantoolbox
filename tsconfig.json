@@ -61,6 +61,7 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "bench/**/*.ts",
+    "scripts/**/*.ts",
     "public/**/*.js",
     "proxy.ts",
     "playwright.config.ts",

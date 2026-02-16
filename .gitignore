@@ -6,6 +6,7 @@ coverage
 .DS_Store
 *.tsbuildinfo
 var/
+.data/
 docs/api
 docs/api/
 
@@ -28,3 +29,6 @@ docs/api/
 # Lighthouse reports (keep local only)
 /reports/lighthouse/
 .lighthouseci/
+
+# Local deployment logs (generated evidence, not committed)
+docs/deployment/reports/logs/

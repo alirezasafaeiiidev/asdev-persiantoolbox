@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "name": "Release DoD 10/10",
+  "description": "تعریف قابل سنجش برای آمادگی انتشار در سطح 10 از 10. این قرارداد باید در CI قابل اعتبارسنجی باشد و خروجی های آن در docs/release و docs/deployment قابل مشاهده باشد.",
+  "requiredDocs": [
+    "docs/deployment-readiness-gates.json",
+    "docs/release-candidate-checklist.json",
+    "docs/launch-day-checklist.json",
+    "docs/qa/TOOLS_QA_MATRIX.md",
+    "docs/ops/RUNBOOK.md"
+  ],
+  "requiredWorkflows": [
+    ".github/workflows/ci-core.yml",
+    ".github/workflows/lighthouse-ci.yml",
+    ".github/workflows/deploy-staging.yml",
+    ".github/workflows/deploy-production.yml"
+  ],
+  "axes": [
+    {
+      "id": "quality",
+      "title": "Code Quality + Correctness",
+      "tier": "core",
+      "blocking": true,
+      "checks": [
+        { "id": "ci-quick", "command": "pnpm ci:quick" },
+        { "id": "build", "command": "pnpm build" }
+      ]
+    },
+    {
+      "id": "contracts",
+      "title": "Contracts + Governance",
+      "tier": "core",
+      "blocking": true,
+      "checks": [
+        { "id": "contracts", "command": "pnpm ci:contracts" },
+        { "id": "licensing", "command": "pnpm licensing:validate" }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security",
+      "tier": "core",
+      "blocking": true,
+      "checks": [{ "id": "security-audit", "command": "pnpm security:scan" }]
+    },
+    {
+      "id": "ux-and-a11y",
+      "title": "UX + Accessibility",
+      "tier": "core",
+      "blocking": true,
+      "checks": [{ "id": "e2e-chromium", "command": "pnpm test:e2e:ci" }]
+    },
+    {
+      "id": "deploy-readiness",
+      "title": "Deployment Readiness",
+      "tier": "core",
+      "blocking": true,
+      "checks": [
+        { "id": "readiness-validate", "command": "pnpm deploy:readiness:validate" },
+        { "id": "rc-validate", "command": "pnpm release:rc:validate" },
+        { "id": "launch-validate", "command": "pnpm release:launch:validate" },
+        { "id": "rollback-validate", "command": "pnpm release:rollback:validate" },
+        { "id": "release-state-validate", "command": "pnpm release:state:validate" }
+      ]
+    },
+    {
+      "id": "observability-and-performance",
+      "title": "SEO + Lighthouse",
+      "tier": "extended",
+      "blocking": false,
+      "checks": [{ "id": "lighthouse-ci", "command": "pnpm lighthouse:ci" }]
+    }
+  ]
+}

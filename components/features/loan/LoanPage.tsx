@@ -453,12 +453,17 @@ export default function LoanPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          <div className="text-lg font-bold mb-2">
+                          <div
+                            className={[
+                              'text-lg font-bold mb-2',
+                              form.calculationType === type ? 'text-white' : 'text-slate-900',
+                            ].join(' ')}
+                          >
                             {getCalculationTypeLabel(type)}
                           </div>
                           <div
                             className={`text-sm ${
-                              form.calculationType === type ? 'text-emerald-50' : 'text-slate-700'
+                              form.calculationType === type ? 'text-white/90' : 'text-slate-700'
                             }`}
                           >
                             {type === 'installment' && 'محاسبه بر اساس مبلغ وام'}
@@ -513,10 +518,17 @@ export default function LoanPage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        <div className="font-bold text-lg mb-3">{getLoanTypeLabel(type)}</div>
+                        <div
+                          className={[
+                            'font-bold text-lg mb-3',
+                            form.loanType === type ? 'text-white' : 'text-slate-900',
+                          ].join(' ')}
+                        >
+                          {getLoanTypeLabel(type)}
+                        </div>
                         <div
                           className={`text-sm leading-relaxed ${
-                            form.loanType === type ? 'text-emerald-50' : 'text-slate-700'
+                            form.loanType === type ? 'text-white/90' : 'text-slate-700'
                           }`}
                         >
                           {getLoanTypeDescription(type)}
@@ -574,6 +586,7 @@ export default function LoanPage() {
                               value={field.value}
                               onValueChange={field.onChange}
                               placeholder={field.placeholder}
+                              className="text-slate-900 placeholder:text-slate-600"
                               error={getFieldError(field.label, field.value)}
                               helperText={field.note}
                             />
@@ -583,6 +596,7 @@ export default function LoanPage() {
                               value={field.value}
                               onValueChange={field.onChange}
                               placeholder={field.placeholder}
+                              className="text-slate-900 placeholder:text-slate-600"
                               error={getFieldError(field.label, field.value)}
                               helperText={field.note}
                             />
@@ -623,6 +637,7 @@ export default function LoanPage() {
                                 value={field.value}
                                 onValueChange={field.onChange}
                                 placeholder={field.placeholder}
+                                className="text-slate-900 placeholder:text-slate-600"
                                 error={getFieldError(field.label, field.value)}
                                 helperText={field.note}
                               />
@@ -632,6 +647,7 @@ export default function LoanPage() {
                                 value={field.value}
                                 onValueChange={field.onChange}
                                 placeholder={field.placeholder}
+                                className="text-slate-900 placeholder:text-slate-600"
                                 error={getFieldError(field.label, field.value)}
                                 helperText={field.note}
                               />
@@ -681,7 +697,7 @@ export default function LoanPage() {
                   )}
                 </AnimatePresence>
               </div>
-              <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-100 px-4 py-2 text-xs font-semibold text-slate-900">
+              <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-100 px-4 py-2 text-xs font-semibold !text-slate-900">
                 <span aria-hidden="true">🔒</span>
                 محاسبات کاملاً در مرورگر شما انجام می‌شود و هیچ داده‌ای ارسال نمی‌شود.
               </div>

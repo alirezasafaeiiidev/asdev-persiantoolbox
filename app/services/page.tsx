@@ -2,6 +2,7 @@ import Container from '@/components/ui/Container';
 import Footer from '@/components/ui/Footer';
 import Navigation from '@/components/ui/Navigation';
 import { buildMetadata } from '@/lib/seo';
+import { getPublicSiteSettings } from '@/lib/server/siteSettings';
 
 export const metadata = buildMetadata({
   title: 'خدمات PersianToolbox - جعبه ابزار فارسی',
@@ -24,7 +25,11 @@ const serviceItems = [
   },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const settings = await getPublicSiteSettings();
+  const orderHref = settings.orderUrl ?? settings.portfolioUrl;
+  const portfolioFallback = settings.portfolioUrl ?? '/asdev-portfolio';
+
   return (
     <div className="min-h-dvh flex flex-col page-shell">
       <Navigation />
@@ -48,6 +53,44 @@ export default function ServicesPage() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          <section className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--surface-1)]/92 p-6 shadow-[var(--shadow-subtle)]">
+            <h2 className="text-xl font-black text-[var(--text-primary)]">درخواست ابزار اختصاصی</h2>
+            <p className="mt-2 text-[var(--text-secondary)] leading-7">
+              اگر ابزار خاصی نیاز دارید، تیم ما آن را متناسب با نیاز شما طراحی و پیاده‌سازی می‌کند.
+              برای هماهنگی و مشاهده نمونه‌کارها از لینک زیر استفاده کنید.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              {orderHref ? (
+                <a
+                  href={orderHref}
+                  target={orderHref.startsWith('/') ? undefined : '_blank'}
+                  rel={orderHref.startsWith('/') ? undefined : 'noopener noreferrer'}
+                  className="btn btn-primary btn-md px-5"
+                >
+                  ثبت درخواست
+                </a>
+              ) : (
+                <span className="text-sm font-semibold text-[var(--text-muted)]">
+                  برای فعال شدن لینک، مقدار `ORDER_URL` یا `PORTFOLIO_URL` را تنظیم کنید.
+                </span>
+              )}
+              {settings.portfolioUrl ? (
+                <a
+                  href={settings.portfolioUrl}
+                  target={settings.portfolioUrl.startsWith('/') ? undefined : '_blank'}
+                  rel={settings.portfolioUrl.startsWith('/') ? undefined : 'noopener noreferrer'}
+                  className="btn btn-secondary btn-md px-5"
+                >
+                  مشاهده صفحه شخصی
+                </a>
+              ) : (
+                <a href={portfolioFallback} className="btn btn-secondary btn-md px-5">
+                  مشاهده صفحه شخصی
+                </a>
+              )}
+            </div>
           </section>
         </Container>
       </main>
