@@ -54,9 +54,14 @@ export default function ToolCard(props: Props) {
             {props.description}
           </div>
         </div>
-        <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)]">
+        <div className="mt-auto flex items-center justify-end gap-2 text-sm font-semibold text-[var(--color-primary)]">
           مشاهده ابزار
-          <span aria-hidden="true">←</span>
+          <span
+            aria-hidden="true"
+            className="inline-block transition-transform duration-[var(--motion-fast)] group-hover:-translate-x-0.5"
+          >
+            ←
+          </span>
         </div>
       </div>
     </Link>

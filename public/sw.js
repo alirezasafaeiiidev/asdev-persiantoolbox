@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v9-2026-02-16';
+const CACHE_VERSION = 'v10-2026-02-16';
 const SHELL_CACHE = `persian-tools-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `persian-tools-runtime-${CACHE_VERSION}`;
 
@@ -13,7 +13,6 @@ const SHELL_ASSETS = [
   '/image-tools',
   '/date-tools',
   '/text-tools',
-  '/validation-tools',
   '/loan',
   '/salary',
 ];
