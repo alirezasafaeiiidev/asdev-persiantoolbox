@@ -9,12 +9,14 @@ fi
 DEPLOY_USER="${DEPLOY_USER:-deploy}"
 BASE_DIR="${BASE_DIR:-/var/www/persian-tools}"
 NODE_MAJOR="${NODE_MAJOR:-20}"
+INSTALL_POSTGRES="${INSTALL_POSTGRES:-false}"
+SSH_PUBLIC_KEY="${SSH_PUBLIC_KEY:-}"
 
 echo "[bootstrap] updating apt index"
 apt update
 
 echo "[bootstrap] installing base packages"
-apt install -y nginx postgresql postgresql-contrib curl git rsync ufw fail2ban ca-certificates gnupg
+apt install -y nginx curl git rsync ufw fail2ban ca-certificates gnupg
 
 echo "[bootstrap] installing Node.js ${NODE_MAJOR}.x"
 curl -fsSL "https://deb.nodesource.com/setup_${NODE_MAJOR}.x" | bash -
@@ -32,6 +34,17 @@ if ! id -u "${DEPLOY_USER}" >/dev/null 2>&1; then
   adduser --disabled-password --gecos "" "${DEPLOY_USER}"
 fi
 
+if [[ -n "${SSH_PUBLIC_KEY}" ]]; then
+  echo "[bootstrap] installing SSH public key for ${DEPLOY_USER}"
+  install -d -m 700 -o "${DEPLOY_USER}" -g "${DEPLOY_USER}" "/home/${DEPLOY_USER}/.ssh"
+  touch "/home/${DEPLOY_USER}/.ssh/authorized_keys"
+  chown "${DEPLOY_USER}:${DEPLOY_USER}" "/home/${DEPLOY_USER}/.ssh/authorized_keys"
+  chmod 600 "/home/${DEPLOY_USER}/.ssh/authorized_keys"
+  if ! grep -Fq "${SSH_PUBLIC_KEY}" "/home/${DEPLOY_USER}/.ssh/authorized_keys"; then
+    echo "${SSH_PUBLIC_KEY}" >>"/home/${DEPLOY_USER}/.ssh/authorized_keys"
+  fi
+fi
+
 echo "[bootstrap] creating app directories"
 mkdir -p "${BASE_DIR}/releases" "${BASE_DIR}/current" "${BASE_DIR}/shared/env" "${BASE_DIR}/shared/logs" "${BASE_DIR}/tmp"
 chown -R "${DEPLOY_USER}:${DEPLOY_USER}" "${BASE_DIR}"
@@ -43,8 +56,13 @@ ufw --force enable
 
 echo "[bootstrap] enabling services"
 systemctl enable nginx
-systemctl enable postgresql
 systemctl enable fail2ban
+
+if [[ "${INSTALL_POSTGRES}" == "true" ]]; then
+  echo "[bootstrap] installing postgres"
+  apt install -y postgresql postgresql-contrib
+  systemctl enable postgresql
+fi
 
 cat <<INFO
 [bootstrap] completed.
@@ -53,6 +71,6 @@ Next steps:
 1. Configure DNS for persian-tools.ir and staging.persian-tools.ir.
 2. Copy Nginx config from ops/nginx/persian-tools.conf and reload nginx.
 3. Run certbot for TLS certificates.
-4. Create Postgres users/databases for staging and production.
+4. (Optional) Create Postgres users/databases for staging and production.
 5. Add GitHub deploy secrets and trigger deploy-staging workflow.
 INFO
