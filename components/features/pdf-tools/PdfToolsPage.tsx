@@ -146,12 +146,11 @@ const pdfTools: PdfToolItem[] = [
   },
   {
     id: 'extract-text',
-    title: 'استخراج متن',
-    description: 'متن کامل را از فایل PDF استخراج کنید',
+    title: 'OCR و استخراج متن',
+    description: 'استخراج متن PDF با نرمال‌سازی فارسی و خروجی TXT/JSON/DOCX',
     icon: '📋',
     path: '/pdf-tools/extract/extract-text',
     category: 'extract',
-    status: 'coming-soon',
   },
 ];
 

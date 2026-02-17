@@ -343,4 +343,37 @@ export const pdfEntries: RawToolEntry[] = [
       ],
     },
   },
+  {
+    id: 'extract-pdf-text',
+    path: '/pdf-tools/extract/extract-text',
+    title: 'OCR فارسی و استخراج متن PDF - جعبه ابزار فارسی',
+    description: 'استخراج متن PDF با پردازش محلی، نرمال‌سازی فارسی و خروجی TXT/JSON/DOCX',
+    keywords: [
+      'OCR فارسی PDF',
+      'استخراج متن PDF',
+      'pdf text extraction',
+      'خروجی docx از pdf',
+      'خروجی json از pdf',
+    ],
+    indexable: true,
+    lastModified: '2026-02-17',
+    kind: 'tool',
+    category: categoryOrThrow('pdf'),
+    content: {
+      intro:
+        'متن فایل PDF را به‌صورت محلی استخراج کنید، نسخه نرمال فارسی بگیرید و خروجی حرفه‌ای TXT/JSON/DOCX دانلود کنید.',
+      steps: [
+        'فایل PDF را انتخاب و پردازش OCR را اجرا کنید.',
+        'کیفیت هر صفحه را با confidence tier بررسی کنید.',
+        'خروجی را در قالب TXT، JSON یا DOCX دانلود کنید.',
+      ],
+      faq: [
+        {
+          question: 'آیا این ابزار به API خارجی OCR وصل می‌شود؟',
+          answer:
+            'خیر، پردازش متن به‌صورت محلی انجام می‌شود و داده‌ای به سرویس ثالث ارسال نمی‌شود.',
+        },
+      ],
+    },
+  },
 ];

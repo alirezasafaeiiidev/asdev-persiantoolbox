@@ -67,7 +67,8 @@
     "monetization:close:all": "node scripts/monetization/run-close-all.mjs",
     "licensing:consistency": "node scripts/licensing/validate-license-consistency.mjs",
     "licensing:validate": "node scripts/licensing/validate-license-assets.mjs && node scripts/licensing/validate-license-consistency.mjs",
-    "licensing:release:dry-run": "node scripts/licensing/run-v2-release-prep-dry-run.mjs"
+    "licensing:release:dry-run": "node scripts/licensing/run-v2-release-prep-dry-run.mjs",
+    "bench:ocr-pro": "tsx scripts/quality/run-ocr-pro-bench-gate.ts"
   },
   "codex": {
     "mcp-start": "bash scripts/mcp-start.sh"

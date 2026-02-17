@@ -69,14 +69,23 @@
 
 5. Phase 5 specialized Pro expansion
 
-- Status: taskized
-- Priority backlog:
-  - `P1` OCR intake contract and offline queue manager
-  - `P1` Persian OCR post-processing pipeline (normalization + confidence tiers)
-  - `P1` specialized pro outputs (DOCX/JSON export contracts)
-  - `P2` QA matrix + benchmark gate for OCR/pro tools
-  - `P2` ops/runbook integration for offline license continuity
+- Status: done
+- Completed:
+  - OCR intake contract and offline queue manager
+  - Persian OCR post-processing pipeline (normalization + confidence tiers)
+  - specialized pro outputs (DOCX/JSON export contracts)
+  - QA matrix + benchmark gate for OCR/pro tools
+  - ops/runbook integration for offline license continuity
+- Evidence:
+  - `features/pdf-tools/extract/extract-text.tsx`
+  - `features/ocr/queue.ts`
+  - `features/ocr/postprocess.ts`
+  - `features/ocr/exports.ts`
+  - `scripts/quality/run-ocr-pro-bench-gate.ts`
+  - `docs/performance/ocr-pro-thresholds.json`
+  - `docs/qa/OCR_PRO_QA_MATRIX.md`
+  - `docs/release/OCR_PRO_ROLLOUT_RUNBOOK.md`
 
 ## Verdict
 
-Roadmap is **not complete yet**.
+Roadmap is **complete on current planned phases**.

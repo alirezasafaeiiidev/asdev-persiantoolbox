@@ -1,0 +1,9 @@
+{
+  "iterations": 1000,
+  "thresholdsMs": {
+    "ocr-normalize": 0.8,
+    "ocr-confidence": 0.4,
+    "ocr-export-json": 0.7,
+    "ocr-export-docx-xml": 0.6
+  }
+}

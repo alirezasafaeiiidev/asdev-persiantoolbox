@@ -16,6 +16,8 @@
 | P2       | Phase 2 | SEO systemization (schema/template/internal linking)     | Done   | `app/guides/page.tsx`, `app/guides/[slug]/page.tsx`, `lib/guide-pages.ts`, `lib/seo-tools.ts`, `tests/unit/guide-pages-contract.test.ts`, `tests/unit/seo-category-contract.test.ts`                                                             | Keep guide quality bar/editorial review                    |
 | P2       | Phase 3 | Core tool quality upgrade (PDF/Finance benchmarks)       | Done   | `components/features/finance/FinanceTrustBlock.tsx`, `lib/finance-data-version.ts`, `shared/utils/csv.ts`, `components/features/loan/LoanPage.tsx`, `components/features/salary/SalaryPage.tsx`, `components/features/interest/InterestPage.tsx` | Keep test coverage for trust/export contracts              |
 | P2       | Phase 4 | Offline-compatible monetization enablement               | Done   | `lib/offline-license.ts`, `app/pro/page.tsx`, `tests/unit/offline-license.test.ts`                                                                                                                                                               | Add operational key rotation runbook                       |
+| P1       | Phase 5 | OCR intake + processing + exports                        | Done   | `features/pdf-tools/extract/extract-text.tsx`, `features/ocr/queue.ts`, `features/ocr/postprocess.ts`, `features/ocr/exports.ts`, `tests/unit/ocr-queue.test.ts`, `tests/unit/ocr-postprocess.test.ts`, `tests/unit/ocr-exports.test.ts`         | Keep OCR regression corpus updated                         |
+| P2       | Phase 5 | OCR/Pro quality and ops gates                            | Done   | `scripts/quality/run-ocr-pro-bench-gate.ts`, `docs/performance/ocr-pro-thresholds.json`, `docs/qa/OCR_PRO_QA_MATRIX.md`, `docs/release/OCR_PRO_ROLLOUT_RUNBOOK.md`                                                                               | Keep benchmark baselines calibrated per release            |
 
 ## Auto Execution Log (2026-02-17)
 
@@ -29,22 +31,20 @@
 
 ## Ordered Next Task Queue
 
-1. `P1` Phase 5 / Task 1: OCR intake contract and offline queue manager (`feature toggle` + `quality gate`).
-2. `P1` Phase 5 / Task 2: Persian OCR post-processing pipeline (normalization + confidence buckets + fallback UX).
-3. `P1` Phase 5 / Task 3: Pro specialized outputs (DOCX/structured JSON export) with local-first execution path.
-4. `P2` Phase 5 / Task 4: QA matrix and benchmark suite for OCR/pro tools.
-5. `P2` Phase 5 / Task 5: Pro docs and ops runbook (offline license continuity + rollback checks).
+1. `P1` Continuous: OCR corpus expansion and edge-case stabilization.
+2. `P1` Continuous: confidence calibration against scanned/noisy documents.
+3. `P2` Continuous: E2E coverage for `/pdf-tools/extract/extract-text`.
 
 ## Roadmap Completion Audit (2026-02-17)
 
-| Phase                                | Status   | Evidence                                                                                                                                                                                                   | Gap                                                                 |
-| ------------------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Phase 1 — Hardening & Reliability    | Done     | `proxy.ts`, `scripts/quality/verify-local-first.ts`, `shared/errors/tool.ts`, `shared/errors/ToolErrorBoundary.tsx`, `shared/guardrails/heavy-file.ts`, `lib/tools-registry-data/*`, `pnpm ci:quick` pass  | Keep the modular registry contract stable under tests               |
-| Phase 2 — SEO Systemization          | Done     | `app/guides/page.tsx`, `app/guides/[slug]/page.tsx`, `lib/guide-pages.ts`, `lib/seo-tools.ts`, `tests/unit/guide-pages-contract.test.ts`, `tests/unit/seo-jsonld-contract.test.ts`                         | Maintain editorial quality of guide cluster                         |
-| Phase 3 — Core Tools Quality Upgrade | Done     | `features/pdf-tools/compress/compress-pdf.tsx`, `shared/pdf/compression-insights.ts`, `scripts/quality/run-core-bench-gate.ts`, `components/features/finance/FinanceTrustBlock.tsx`, `shared/utils/csv.ts` | Continue expanding export/test coverage for future finance features |
-| Phase 4 — Monetization Enablement    | Done     | `/pro` runtime check in `app/pro/page.tsx`, `lib/offline-license.ts`, `tests/unit/offline-license.test.ts`                                                                                                 | Key rotation and ops playbook refinement                            |
-| Phase 5 — Specialized Pro Expansion  | Taskized | Base platform and Pro entry route exist                                                                                                                                                                    | Execution backlog is broken into prioritized implementation tasks   |
+| Phase                                | Status | Evidence                                                                                                                                                                                                   | Gap                                                                 |
+| ------------------------------------ | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Phase 1 — Hardening & Reliability    | Done   | `proxy.ts`, `scripts/quality/verify-local-first.ts`, `shared/errors/tool.ts`, `shared/errors/ToolErrorBoundary.tsx`, `shared/guardrails/heavy-file.ts`, `lib/tools-registry-data/*`, `pnpm ci:quick` pass  | Keep the modular registry contract stable under tests               |
+| Phase 2 — SEO Systemization          | Done   | `app/guides/page.tsx`, `app/guides/[slug]/page.tsx`, `lib/guide-pages.ts`, `lib/seo-tools.ts`, `tests/unit/guide-pages-contract.test.ts`, `tests/unit/seo-jsonld-contract.test.ts`                         | Maintain editorial quality of guide cluster                         |
+| Phase 3 — Core Tools Quality Upgrade | Done   | `features/pdf-tools/compress/compress-pdf.tsx`, `shared/pdf/compression-insights.ts`, `scripts/quality/run-core-bench-gate.ts`, `components/features/finance/FinanceTrustBlock.tsx`, `shared/utils/csv.ts` | Continue expanding export/test coverage for future finance features |
+| Phase 4 — Monetization Enablement    | Done   | `/pro` runtime check in `app/pro/page.tsx`, `lib/offline-license.ts`, `tests/unit/offline-license.test.ts`                                                                                                 | Key rotation and ops playbook refinement                            |
+| Phase 5 — Specialized Pro Expansion  | Done   | `features/pdf-tools/extract/extract-text.tsx`, `features/ocr/*`, `scripts/quality/run-ocr-pro-bench-gate.ts`, `docs/qa/OCR_PRO_QA_MATRIX.md`, `docs/release/OCR_PRO_ROLLOUT_RUNBOOK.md`                    | Keep iterative quality and corpus improvements                      |
 
 ### Verdict
 
-Roadmap is **not fully complete**.
+Roadmap is **complete on current scope**.
