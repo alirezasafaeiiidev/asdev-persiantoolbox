@@ -40,6 +40,7 @@ type CompressRequest = {
   id: string;
   type: 'compress';
   file: ArrayBuffer;
+  profile?: 'lite' | 'balanced' | 'accurate';
 };
 
 type WatermarkRequest = {
@@ -208,7 +209,11 @@ ctx.onmessage = async (event: MessageEvent<WorkerRequest>) => {
         const compressedPdf = await PDFDocument.create();
         const copiedPages = await compressedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
         copiedPages.forEach((page) => compressedPdf.addPage(page));
-        const bytes = await compressedPdf.save({ useObjectStreams: true, addDefaultPage: false });
+        const bytes = await compressedPdf.save({
+          useObjectStreams: payload.profile !== 'accurate',
+          addDefaultPage: false,
+          objectsPerTick: payload.profile === 'lite' ? 30 : 50,
+        });
         const buffer = toArrayBuffer(bytes);
         postProgress(payload.id, 1);
         const response: WorkerResponse = { id: payload.id, type: 'result', buffer };

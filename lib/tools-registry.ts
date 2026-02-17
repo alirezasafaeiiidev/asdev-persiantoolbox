@@ -1,3 +1,5 @@
+import { getTierByPathPolicy, resolveToolTier } from '@/lib/tools-registry.policy';
+
 export type ToolFaq = {
   question: string;
   answer: string;
@@ -1042,26 +1044,6 @@ const rawToolsRegistry: RawToolEntry[] = [
   },
 ];
 
-const ONLINE_REQUIRED_PREFIXES = ['/pro/'] as const;
-const ONLINE_REQUIRED_PATHS = new Set(['/pro']);
-const HYBRID_PATHS = new Set<string>([]);
-
-function resolveToolTier(entry: RawToolEntry): ToolTier {
-  if (entry.tier) {
-    return entry.tier;
-  }
-  if (ONLINE_REQUIRED_PATHS.has(entry.path)) {
-    return 'Online-Required';
-  }
-  if (ONLINE_REQUIRED_PREFIXES.some((prefix) => entry.path.startsWith(prefix))) {
-    return 'Online-Required';
-  }
-  if (HYBRID_PATHS.has(entry.path)) {
-    return 'Hybrid';
-  }
-  return 'Offline-Guaranteed';
-}
-
 export const toolsRegistry: ToolEntry[] = rawToolsRegistry.map((entry) => ({
   ...entry,
   tier: resolveToolTier(entry),
@@ -1098,14 +1080,9 @@ export function getCategoryContent(categoryId: string): CategoryContent | undefi
 }
 
 export function getTierByPath(path: string): ToolTier {
-  if (ONLINE_REQUIRED_PATHS.has(path)) {
-    return 'Online-Required';
-  }
-  if (ONLINE_REQUIRED_PREFIXES.some((prefix) => path.startsWith(prefix))) {
-    return 'Online-Required';
-  }
-  if (HYBRID_PATHS.has(path)) {
-    return 'Hybrid';
+  const policyTier = getTierByPathPolicy(path);
+  if (policyTier) {
+    return policyTier;
   }
   return toolsByPath.get(path)?.tier ?? 'Offline-Guaranteed';
 }

@@ -1,0 +1,8 @@
+{
+  "iterations": 1200,
+  "thresholdsMs": {
+    "loan": 0.35,
+    "salary": 0.35,
+    "interest": 0.35
+  }
+}

@@ -5,6 +5,7 @@ import Script from 'next/script';
 import { buildMetadata } from '@/lib/seo';
 import { buildPillarJsonLd } from '@/lib/seo-tools';
 import { getCategories, getCategoryContent, getToolsByCategory } from '@/lib/tools-registry';
+import { getGuidesByCategory } from '@/lib/guide-pages';
 import { getCspNonce } from '@/lib/csp';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -39,6 +40,7 @@ export default async function TopicCategoryPage({ params }: Props) {
   }
 
   const tools = getToolsByCategory(category.id);
+  const guides = getGuidesByCategory(category.id);
   const content = getCategoryContent(category.id);
   const jsonLd = buildPillarJsonLd({
     title: `Pillar ${category.name} - جعبه ابزار فارسی`,
@@ -104,6 +106,26 @@ export default async function TopicCategoryPage({ params }: Props) {
               ))}
             </div>
           </section>
+
+          {guides.length > 0 && (
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold text-[var(--text-primary)]">راهنماهای عمیق</h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {guides.map((guide) => (
+                  <Link
+                    key={guide.slug}
+                    href={`/guides/${guide.slug}`}
+                    className="rounded-[var(--radius-md)] border border-[var(--border-light)] bg-[var(--surface-1)] p-4 hover:border-[var(--border-strong)]"
+                  >
+                    <div className="font-semibold text-[var(--text-primary)]">{guide.title}</div>
+                    <div className="mt-2 text-sm text-[var(--text-secondary)]">
+                      {guide.description}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {content && (
             <section className="space-y-6">

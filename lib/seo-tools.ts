@@ -304,6 +304,80 @@ export function buildPillarJsonLd(input: {
   };
 }
 
+export function buildGuideJsonLd(input: {
+  title: string;
+  description: string;
+  path: string;
+  category: { name: string; path: string };
+  relatedTools: Array<{ name: string; path: string }>;
+  faq?: Array<{ question: string; answer: string }>;
+}): JsonLdNode {
+  const absoluteUrl = new URL(input.path, siteUrl).toString();
+  const graph: JsonLdNode[] = [
+    {
+      '@type': 'Article',
+      headline: input.title,
+      description: input.description,
+      url: absoluteUrl,
+      inLanguage: lang,
+      author: {
+        '@type': 'Organization',
+        name: siteName,
+        url: siteUrl,
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'صفحه اصلی', item: siteUrl },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'راهنماها',
+          item: new URL('/guides', siteUrl).toString(),
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: input.category.name,
+          item: new URL(input.category.path, siteUrl).toString(),
+        },
+        { '@type': 'ListItem', position: 4, name: input.title, item: absoluteUrl },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      name: `ابزارهای مرتبط با ${input.title}`,
+      itemListOrder: 'https://schema.org/ItemListUnordered',
+      itemListElement: input.relatedTools.map((tool, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: tool.name,
+        url: new URL(tool.path, siteUrl).toString(),
+      })),
+    },
+  ];
+
+  if (input.faq && input.faq.length > 0) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: input.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    });
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
+}
+
 function buildBreadcrumbItems(tool: ToolEntry): JsonLdNode[] {
   const items: JsonLdNode[] = [
     {

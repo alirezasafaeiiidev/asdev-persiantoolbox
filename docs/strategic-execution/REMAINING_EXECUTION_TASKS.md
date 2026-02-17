@@ -1,38 +1,70 @@
 # Remaining Execution Tasks - asdev-persiantoolbox
 
-- Last updated: 2026-02-14 (2026-02-14 20:22:46 UTC)
-- Scope: development environment only (no server-side changes)
-
-## Local Save Log
-
-- `8ef6acb` - chore(execution): finalize dev execution docs and remaining roadmap
-- `b99c4a6` - docs(release): mark rc and launch smoke as done in readiness dashboard
-- `bb25e59` - docs(execution): clarify remaining release-tag dependency
+- Last updated: 2026-02-17
+- Scope: repository roadmap completion audit
 
 ## Current State
 
-- Strategic execution stages (A/B/S/L): completed in local docs/evidence.
-- Local validation gates: passed (`ci:quick`, `ci:contracts`, readiness/RC/launch runs).
+- Release integrity artifacts are passing (`ci:quick`, `ci:contracts`, rc/launch/doD/state validations).
+- Release registry is finalized as `done`:
+  - `docs/release/release-state-registry.md`
+  - `docs/release/v3-readiness-dashboard.md`
+- Product roadmap (`docs/PRODUCT_ROADMAP.md`) is still partially complete.
 
-## Remaining Tasks
+## Remaining Tasks (Roadmap-Critical)
 
-1. Finalize remote release tag state
+1. Phase 1 hardening completion
 
-- Status: pending external action
-- Why remaining: `docs/release/release-state-registry.md` and `final_release_tag_remote` in `docs/release/v3-readiness-dashboard.md` are still `in_progress`.
-- Evidence path: `docs/release/reports/v3-publish-tasklist-2026-02-14.md`
-- Required action: after final approval, create/publish final release tag on remote and update status to `done`.
+- Status: in progress
+- Remaining:
+  - modularize `lib/tools-registry.ts` into category modules + aggregator
+- Evidence:
+  - `docs/strategic-execution/ROADMAP_TASKS_PRIORITIZED.md`
 
-2. Complete v2 licensing release checklist
+2. Phase 2 SEO systemization completion
 
-- Status: pending release-cut decision
-- Why remaining: checklist items are still unchecked and intended for release cut timing.
-- Evidence path: `docs/licensing/v2-license-release-checklist.md`
-- Required action: check all checklist items at release cut and attach release notes artifact.
+- Status: done
+- Completed:
+  - guide-page content cluster per category added (`/guides/*`)
+  - landing-template + internal-linking contract enforced via tests
+- Evidence:
+  - `app/guides/page.tsx`
+  - `app/guides/[slug]/page.tsx`
+  - `lib/guide-pages.ts`
+  - `tests/unit/guide-pages-contract.test.ts`
 
-3. Optional production confirmation pack (outside current dev-only scope)
+3. Phase 3 core quality upgrades
 
-- Status: deferred by policy
-- Why remaining: post-deploy runtime checks require real base URL and production environment.
-- Suggested evidence path: `docs/deployment/reports/` via `pnpm deploy:post:report -- --base-url=<prod-url>`
-- Required action: run only when server changes are allowed.
+- Status: in progress
+- Remaining:
+  - finance/HR trust upgrades (data-versioning visibility + pro-grade output flow)
+- Completed:
+  - benchmark threshold gate + drift reporting integration
+  - realistic PDF compression explainability/profile gate baseline
+  - batch processing pipeline (queue + multi-file operations) for PDF compress
+- Evidence:
+  - `scripts/quality/run-core-bench-gate.ts`
+  - `docs/performance/core-tools-thresholds.json`
+  - `features/pdf-tools/compress/compress-pdf.tsx`
+  - `shared/pdf/compression-insights.ts`
+
+4. Phase 4 monetization enablement (local-first compatible)
+
+- Status: done
+- Completed:
+  - offline signed-license verification connected to runtime pro-gating
+- Evidence:
+  - `app/pro/page.tsx`
+  - `lib/offline-license.ts`
+  - `tests/unit/offline-license.test.ts`
+
+5. Phase 5 specialized Pro expansion
+
+- Status: todo
+- Remaining:
+  - OCR فارسی roadmap items
+  - specialized pro toolset rollout (as defined in product roadmap)
+
+## Verdict
+
+Roadmap is **not complete yet**.

@@ -5,6 +5,7 @@ import Script from 'next/script';
 import { buildMetadata } from '@/lib/seo';
 import { buildTopicJsonLd } from '@/lib/seo-tools';
 import { getCategories, getCategoryContent, getToolsByCategory } from '@/lib/tools-registry';
+import { getGuidePages } from '@/lib/guide-pages';
 import { getCspNonce } from '@/lib/csp';
 import Link from 'next/link';
 
@@ -24,6 +25,12 @@ export const metadata = buildMetadata({
 
 export default async function TopicsPage() {
   const categories = getCategories();
+  const guidesByCategory = new Map(
+    categories.map((category) => [
+      category.id,
+      getGuidePages().find((guide) => guide.categoryId === category.id),
+    ]),
+  );
   const faq = [
     {
       question: 'صفحه Pillar چیست و چه کاربردی دارد؟',
@@ -94,12 +101,22 @@ export default async function TopicsPage() {
                     <h2 className="text-2xl font-bold text-[var(--text-primary)]">
                       {category.name}
                     </h2>
-                    <Link
-                      href={`/topics/${category.id}`}
-                      className="text-sm font-semibold text-[var(--color-primary)]"
-                    >
-                      مشاهده صفحه Pillar
-                    </Link>
+                    <div className="flex items-center gap-4">
+                      <Link
+                        href={`/topics/${category.id}`}
+                        className="text-sm font-semibold text-[var(--color-primary)]"
+                      >
+                        مشاهده صفحه Pillar
+                      </Link>
+                      {guidesByCategory.get(category.id) && (
+                        <Link
+                          href={`/guides/${guidesByCategory.get(category.id)?.slug}`}
+                          className="text-sm font-semibold text-[var(--color-primary)]"
+                        >
+                          راهنمای عمیق
+                        </Link>
+                      )}
+                    </div>
                   </div>
                   <p className="text-[var(--text-secondary)]">
                     ابزارهای مرتبط با {category.name} برای حل سریع‌تر کارهای تخصصی شما.

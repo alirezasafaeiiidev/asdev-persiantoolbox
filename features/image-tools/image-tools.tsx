@@ -9,6 +9,11 @@ import ImageDropzone from './components/ImageDropzone';
 import { useImageToolsWorker } from './hooks/useImageToolsWorker';
 import { recordHistory } from '@/shared/history/recordHistory';
 import RecentHistoryCard from '@/components/features/history/RecentHistoryCard';
+import {
+  getSuggestedCompressionMode,
+  validateHeavyFile,
+  validateHeavyFileCount,
+} from '@/shared/guardrails/heavy-file';
 import type {
   CompressionSettings,
   ImageCompressionPreset,
@@ -126,22 +131,34 @@ export default function ImageToolsPage() {
       return;
     }
 
+    const selectedFiles = Array.from(files);
+    const countGuardrail = validateHeavyFileCount(items.length + selectedFiles.length, {
+      maxFiles: MAX_FILES,
+      fileLabelFa: 'تصویر',
+    });
+    if (!countGuardrail.ok) {
+      setNotice(`${countGuardrail.message}${countGuardrail.hint ? ` ${countGuardrail.hint}` : ''}`);
+      return;
+    }
+
     const nextItems: ImageQueueItem[] = [];
     const errors: string[] = [];
 
-    Array.from(files).some((file) => {
+    selectedFiles.some((file) => {
       if (nextItems.length + items.length >= MAX_FILES) {
         errors.push(`حداکثر ${MAX_FILES} تصویر قابل انتخاب است.`);
         return true;
       }
 
-      if (!ACCEPTED_TYPES.includes(file.type)) {
-        errors.push(`${file.name}: فرمت فایل پشتیبانی نمی‌شود.`);
-        return false;
-      }
-
-      if (file.size > MAX_FILE_SIZE) {
-        errors.push(`${file.name}: حجم بیش از ۲۰ مگابایت است.`);
+      const fileGuardrail = validateHeavyFile(file, {
+        acceptedMimeTypes: ACCEPTED_TYPES,
+        maxFileSizeBytes: MAX_FILE_SIZE,
+        fileLabelFa: `فایل ${file.name}`,
+      });
+      if (!fileGuardrail.ok) {
+        errors.push(
+          `${fileGuardrail.message}${fileGuardrail.hint ? ` ${fileGuardrail.hint}` : ''}`,
+        );
         return false;
       }
 
@@ -424,6 +441,13 @@ export default function ImageToolsPage() {
                         <p className="text-sm text-[var(--text-muted)]">
                           {formatBytesFa(item.originalSize)} ·{' '}
                           {item.file.type.replace('image/', '').toUpperCase()}
+                        </p>
+                        <p className="text-xs text-[var(--text-muted)]">
+                          حالت پیشنهادی:{' '}
+                          {getSuggestedCompressionMode(item.originalSize, 8 * 1024 * 1024) ===
+                          'lite'
+                            ? 'Lite'
+                            : 'Accurate'}
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2">

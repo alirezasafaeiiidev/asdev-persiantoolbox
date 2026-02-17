@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { buildPillarJsonLd, buildToolJsonLd, buildTopicJsonLd } from '@/lib/seo-tools';
+import {
+  buildGuideJsonLd,
+  buildPillarJsonLd,
+  buildToolJsonLd,
+  buildTopicJsonLd,
+} from '@/lib/seo-tools';
 import { getToolByPathOrThrow } from '@/lib/tools-registry';
 
 type JsonLdNode = Record<string, unknown>;
@@ -71,5 +76,20 @@ describe('SEO JSON-LD contracts', () => {
     expect(graph.some((item) => item['@type'] === 'BreadcrumbList')).toBe(true);
     expect(graph.some((item) => item['@type'] === 'ItemList')).toBe(true);
     expect(graph.some((item) => item['@type'] === 'FAQPage')).toBe(true);
+  });
+
+  it('guide json-ld includes article + related tools list', () => {
+    const jsonLd = buildGuideJsonLd({
+      title: 'راهنمای PDF',
+      description: 'راهنمای تست',
+      path: '/guides/reduce-scanned-pdf-size',
+      category: { name: 'ابزارهای PDF', path: '/pdf-tools' },
+      relatedTools: [{ name: 'ادغام PDF', path: '/pdf-tools/merge/merge-pdf' }],
+      faq: [{ question: 'q', answer: 'a' }],
+    }) as JsonLdNode;
+    const graph = readGraph(jsonLd);
+    expect(graph.some((item) => item['@type'] === 'Article')).toBe(true);
+    expect(graph.some((item) => item['@type'] === 'ItemList')).toBe(true);
+    expect(graph.some((item) => item['@type'] === 'BreadcrumbList')).toBe(true);
   });
 });

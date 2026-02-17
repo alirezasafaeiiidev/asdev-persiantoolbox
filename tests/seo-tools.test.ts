@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildToolJsonLd, buildTopicJsonLd } from '@/lib/seo-tools';
+import { buildGuideJsonLd, buildToolJsonLd, buildTopicJsonLd } from '@/lib/seo-tools';
 import { getToolByPathOrThrow, getCategoryContent } from '@/lib/tools-registry';
 
 describe('seo-tools', () => {
@@ -66,5 +66,20 @@ describe('seo-tools', () => {
 
     expect(collection).toBeTruthy();
     expect(list).toBeTruthy();
+  });
+
+  it('builds guide json-ld with article, breadcrumb and faq', () => {
+    const jsonLd = buildGuideJsonLd({
+      title: 'راهنمای کاهش حجم PDF',
+      description: 'راهنمای عملی کاهش حجم',
+      path: '/guides/reduce-scanned-pdf-size',
+      category: { name: 'ابزارهای PDF', path: '/pdf-tools' },
+      relatedTools: [{ name: 'فشرده سازی PDF', path: '/pdf-tools/compress/compress-pdf' }],
+      faq: [{ question: 'q', answer: 'a' }],
+    });
+    const graph = jsonLd['@graph'] as Array<Record<string, unknown>>;
+    expect(graph.some((item) => item['@type'] === 'Article')).toBe(true);
+    expect(graph.some((item) => item['@type'] === 'BreadcrumbList')).toBe(true);
+    expect(graph.some((item) => item['@type'] === 'FAQPage')).toBe(true);
   });
 });
