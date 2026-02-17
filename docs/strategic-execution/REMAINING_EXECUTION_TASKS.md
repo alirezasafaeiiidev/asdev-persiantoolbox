@@ -9,7 +9,11 @@
 - Release registry is finalized as `done`:
   - `docs/release/release-state-registry.md`
   - `docs/release/v3-readiness-dashboard.md`
-- Product roadmap (`docs/PRODUCT_ROADMAP.md`) is still partially complete.
+- Product roadmap (`docs/PRODUCT_ROADMAP.md`) planned phases are complete on current scope.
+- OCR route E2E coverage is now in place and validated:
+  - `tests/e2e/tools.spec.ts`
+  - `pnpm playwright test tests/e2e/tools.spec.ts -g "pdf ocr extract text page should render primary action" --project=chromium`
+- Deployment policy (operator decision): no further deploy until next full development milestone is explicitly approved.
 
 ## Remaining Tasks (Roadmap-Critical)
 
@@ -81,6 +85,7 @@
   - `features/ocr/queue.ts`
   - `features/ocr/postprocess.ts`
   - `features/ocr/exports.ts`
+  - `tests/e2e/tools.spec.ts`
   - `scripts/quality/run-ocr-pro-bench-gate.ts`
   - `docs/performance/ocr-pro-thresholds.json`
   - `docs/qa/OCR_PRO_QA_MATRIX.md`
