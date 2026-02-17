@@ -45,6 +45,13 @@ test.describe('Tool flows', () => {
     await expect(page.locator('#extract-pages-file')).toBeVisible();
   });
 
+  test('pdf ocr extract text page should render primary action', async ({ page }) => {
+    await page.goto('/pdf-tools/extract/extract-text');
+    await expect(page.getByRole('heading', { name: 'OCR فارسی و استخراج متن PDF' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'شروع OCR' })).toBeVisible();
+    await expect(page.locator('#ocr-pdf-file')).toBeVisible();
+  });
+
   test('pdf delete pages page should render primary action', async ({ page }) => {
     await page.goto('/pdf-tools/edit/delete-pages');
     await expect(page.getByRole('button', { name: 'حذف صفحات' })).toBeVisible();
