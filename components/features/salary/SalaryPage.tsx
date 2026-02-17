@@ -20,6 +20,7 @@ import NumericInput from '@/shared/ui/NumericInput';
 import { tokens, toolCategories } from '@/shared/constants/tokens';
 import { useToast } from '@/shared/ui/toast-context';
 import AsyncState from '@/shared/ui/AsyncState';
+import { downloadCsv } from '@/shared/utils/csv';
 
 type CalculationMode = 'gross-to-net' | 'net-to-gross' | 'minimum-wage';
 type SalaryLawsFeed = {
@@ -142,6 +143,49 @@ export default function SalaryPage() {
       )} تومان`,
     });
     showToast('نتیجه حداقل دستمزد در مرورگر ذخیره شد', 'success');
+  };
+
+  const exportSalaryCsv = () => {
+    if (!result) {
+      return;
+    }
+
+    downloadCsv(
+      'salary-calculation.csv',
+      [
+        { field: 'mode', value: form.mode },
+        { field: 'grossSalary', value: result.grossSalary },
+        { field: 'insurance', value: result.summary.insurance },
+        { field: 'tax', value: result.summary.tax },
+        { field: 'totalDeductions', value: result.summary.totalDeductions },
+        { field: 'netSalary', value: result.netSalary },
+      ],
+      ['field', 'value'],
+    );
+    showToast('خروجی CSV حقوق دانلود شد', 'success');
+  };
+
+  const exportMinimumWageCsv = () => {
+    if (!minimumWageResult) {
+      return;
+    }
+
+    downloadCsv(
+      'minimum-wage-calculation.csv',
+      [
+        { field: 'baseSalary', value: minimumWageResult.baseSalary },
+        { field: 'housingAllowance', value: minimumWageResult.housingAllowance },
+        { field: 'foodAllowance', value: minimumWageResult.foodAllowance },
+        { field: 'familyAllowance', value: minimumWageResult.familyAllowance },
+        { field: 'experienceBonus', value: minimumWageResult.experienceBonus },
+        { field: 'totalGross', value: minimumWageResult.totalGross },
+        { field: 'insuranceAmount', value: minimumWageResult.insuranceAmount },
+        { field: 'taxAmount', value: minimumWageResult.taxAmount },
+        { field: 'netSalary', value: minimumWageResult.netSalary },
+      ],
+      ['field', 'value'],
+    );
+    showToast('خروجی CSV حداقل دستمزد دانلود شد', 'success');
   };
 
   useEffect(() => {
@@ -422,7 +466,9 @@ export default function SalaryPage() {
                   id="salary-experience"
                   label="سابقه کار (سال)"
                   value={form.workExperienceYearsText}
-                  onValueChange={(value) => setForm((s) => ({ ...s, workExperienceYearsText: value }))}
+                  onValueChange={(value) =>
+                    setForm((s) => ({ ...s, workExperienceYearsText: value }))
+                  }
                   error={getFieldError('سابقه کار', form.workExperienceYearsText)}
                 />
                 <NumericInput
@@ -534,7 +580,9 @@ export default function SalaryPage() {
                         id="salary-other-benefits"
                         label="سایر مزایا (تومان)"
                         value={form.otherBenefitsText}
-                        onValueChange={(value) => setForm((s) => ({ ...s, otherBenefitsText: value }))}
+                        onValueChange={(value) =>
+                          setForm((s) => ({ ...s, otherBenefitsText: value }))
+                        }
                         error={getFieldError('سایر مزایا', form.otherBenefitsText)}
                       />
                       <MoneyInput
@@ -606,13 +654,22 @@ export default function SalaryPage() {
                       {showDetails ? 'مخفی کردن جزئیات' : 'نمایش جزئیات'}
                     </motion.button>
                   </div>
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-md mb-5"
-                    onClick={saveSalaryResult}
-                  >
-                    ذخیره محاسبه
-                  </button>
+                  <div className="mb-5 flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-md"
+                      onClick={exportSalaryCsv}
+                    >
+                      خروجی CSV
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-md"
+                      onClick={saveSalaryResult}
+                    >
+                      ذخیره محاسبه
+                    </button>
+                  </div>
 
                   <div className="grid gap-6 md:grid-cols-3">
                     <motion.div
@@ -757,13 +814,22 @@ export default function SalaryPage() {
                       </div>
                       نتیجه محاسبه حداقل دستمزد
                     </h2>
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-md"
-                      onClick={saveMinimumWageResult}
-                    >
-                      ذخیره محاسبه
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-md"
+                        onClick={exportMinimumWageCsv}
+                      >
+                        خروجی CSV
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-md"
+                        onClick={saveMinimumWageResult}
+                      >
+                        ذخیره محاسبه
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid gap-6 md:grid-cols-2">

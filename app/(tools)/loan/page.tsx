@@ -19,7 +19,7 @@ export default function LoanRoute() {
     <div className="space-y-10">
       <LoanPage />
       <ToolSeoContent tool={tool} />
-      <FinanceTrustBlock />
+      <FinanceTrustBlock tool="loan" />
       <RelatedFinanceTools current="loan" />
     </div>
   );

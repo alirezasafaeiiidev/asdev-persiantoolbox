@@ -19,6 +19,7 @@ import {
 import { toolCategories } from '@/shared/constants/tokens';
 import { useToast } from '@/shared/ui/toast-context';
 import AsyncState from '@/shared/ui/AsyncState';
+import { downloadCsv } from '@/shared/utils/csv';
 
 type LoanFormState = {
   calculationType: CalculationType;
@@ -130,6 +131,49 @@ export default function LoanPage() {
       )} تومان`,
     });
     showToast('نتیجه وام در مرورگر ذخیره شد', 'success');
+  };
+
+  const onExportCsv = () => {
+    if (!result) {
+      return;
+    }
+
+    const rows: Array<Record<string, string | number>> = [
+      { section: 'summary', field: 'loanType', value: form.loanType },
+      { section: 'summary', field: 'calculationType', value: form.calculationType },
+      { section: 'summary', field: 'principal', value: result.principal },
+      { section: 'summary', field: 'months', value: result.months },
+      { section: 'summary', field: 'annualRatePercent', value: result.annualInterestRatePercent },
+      { section: 'summary', field: 'monthlyPayment', value: result.monthlyPayment },
+      { section: 'summary', field: 'totalPayment', value: result.totalPayment },
+      { section: 'summary', field: 'totalInterest', value: result.totalInterest },
+      {
+        section: 'summary',
+        field: 'effectiveRate',
+        value: result.effectiveRate ?? '',
+      },
+    ];
+
+    if (result.stepDetails?.length) {
+      for (const step of result.stepDetails) {
+        rows.push({
+          section: 'step',
+          field: `step-${step.step}`,
+          value: step.monthlyPayment,
+          stepMonths: step.months,
+          stepRatePercent: step.rate,
+        });
+      }
+    }
+
+    downloadCsv('loan-calculation.csv', rows, [
+      'section',
+      'field',
+      'value',
+      'stepMonths',
+      'stepRatePercent',
+    ]);
+    showToast('خروجی CSV وام دانلود شد', 'success');
   };
 
   const getCalculationTypeLabel = (type: CalculationType) => {
@@ -735,13 +779,22 @@ export default function LoanPage() {
                       </div>
                       نتیجه محاسبه - وام {getLoanTypeLabel(form.loanType)}
                     </h2>
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-md"
-                      onClick={onSaveCalculation}
-                    >
-                      ذخیره محاسبه
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-md"
+                        onClick={onExportCsv}
+                      >
+                        خروجی CSV
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-md"
+                        onClick={onSaveCalculation}
+                      >
+                        ذخیره محاسبه
+                      </button>
+                    </div>
                   </div>
 
                   <StaggerContainer staggerDelay={0.1}>

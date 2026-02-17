@@ -19,7 +19,7 @@ export default function SalaryRoute() {
     <div className="space-y-10">
       <SalaryPage />
       <ToolSeoContent tool={tool} />
-      <FinanceTrustBlock />
+      <FinanceTrustBlock tool="salary" />
       <RelatedFinanceTools current="salary" />
     </div>
   );

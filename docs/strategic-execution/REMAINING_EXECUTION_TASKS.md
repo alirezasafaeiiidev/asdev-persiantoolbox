@@ -15,11 +15,15 @@
 
 1. Phase 1 hardening completion
 
-- Status: in progress
-- Remaining:
-  - modularize `lib/tools-registry.ts` into category modules + aggregator
+- Status: done
+- Completed:
+  - modularized registry into `lib/tools-registry-data/*` modules with aggregator compatibility
 - Evidence:
-  - `docs/strategic-execution/ROADMAP_TASKS_PRIORITIZED.md`
+  - `lib/tools-registry.ts`
+  - `lib/tools-registry-data/types.ts`
+  - `lib/tools-registry-data/categories.ts`
+  - `lib/tools-registry-data/category-content.ts`
+  - `lib/tools-registry-data/raw-tools-registry.ts`
 
 2. Phase 2 SEO systemization completion
 
@@ -35,18 +39,23 @@
 
 3. Phase 3 core quality upgrades
 
-- Status: in progress
-- Remaining:
-  - finance/HR trust upgrades (data-versioning visibility + pro-grade output flow)
+- Status: done
 - Completed:
   - benchmark threshold gate + drift reporting integration
   - realistic PDF compression explainability/profile gate baseline
   - batch processing pipeline (queue + multi-file operations) for PDF compress
+  - finance/HR trust upgrades (data-version visibility + CSV output flow)
 - Evidence:
   - `scripts/quality/run-core-bench-gate.ts`
   - `docs/performance/core-tools-thresholds.json`
   - `features/pdf-tools/compress/compress-pdf.tsx`
   - `shared/pdf/compression-insights.ts`
+  - `components/features/finance/FinanceTrustBlock.tsx`
+  - `lib/finance-data-version.ts`
+  - `shared/utils/csv.ts`
+  - `components/features/loan/LoanPage.tsx`
+  - `components/features/salary/SalaryPage.tsx`
+  - `components/features/interest/InterestPage.tsx`
 
 4. Phase 4 monetization enablement (local-first compatible)
 
@@ -60,10 +69,13 @@
 
 5. Phase 5 specialized Pro expansion
 
-- Status: todo
-- Remaining:
-  - OCR فارسی roadmap items
-  - specialized pro toolset rollout (as defined in product roadmap)
+- Status: taskized
+- Priority backlog:
+  - `P1` OCR intake contract and offline queue manager
+  - `P1` Persian OCR post-processing pipeline (normalization + confidence tiers)
+  - `P1` specialized pro outputs (DOCX/JSON export contracts)
+  - `P2` QA matrix + benchmark gate for OCR/pro tools
+  - `P2` ops/runbook integration for offline license continuity
 
 ## Verdict
 

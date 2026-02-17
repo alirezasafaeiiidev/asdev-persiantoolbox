@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { calculateInterestResult, type InterestMode } from '@/features/interest/interest.logic';
 import { saveFinanceCalculation } from '@/shared/analytics/financeSaved';
 import { formatMoneyFa, parseLooseNumber } from '@/shared/utils/numbers';
+import { downloadCsv } from '@/shared/utils/csv';
 
 type InterestFormState = {
   principalText: string;
@@ -47,6 +48,26 @@ export default function InterestPage() {
         result.finalAmount,
       )} تومان`,
     });
+  };
+
+  const handleExportCsv = () => {
+    if (!result) {
+      return;
+    }
+
+    downloadCsv(
+      'interest-calculation.csv',
+      [
+        { field: 'principal', value: result.principal },
+        { field: 'annualRatePercent', value: result.annualRatePercent },
+        { field: 'months', value: result.months },
+        { field: 'mode', value: result.mode },
+        { field: 'interest', value: result.interest },
+        { field: 'finalAmount', value: result.finalAmount },
+        { field: 'monthlyProfit', value: result.monthlyProfit },
+      ],
+      ['field', 'value'],
+    );
   };
 
   return (
@@ -150,9 +171,14 @@ export default function InterestPage() {
               </p>
             </article>
           </div>
-          <button type="button" className="btn btn-primary btn-md" onClick={handleSave}>
-            ذخیره محاسبه در مرورگر
-          </button>
+          <div className="flex items-center gap-2">
+            <button type="button" className="btn btn-secondary btn-md" onClick={handleExportCsv}>
+              خروجی CSV
+            </button>
+            <button type="button" className="btn btn-primary btn-md" onClick={handleSave}>
+              ذخیره محاسبه در مرورگر
+            </button>
+          </div>
         </section>
       ) : null}
       <SavedFinanceCalculations tool="interest" />

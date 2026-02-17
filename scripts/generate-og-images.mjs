@@ -1,9 +1,10 @@
-import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const appRoot = join(process.cwd(), 'app');
 const configPath = join(process.cwd(), 'lib', 'seo-featured-tools.json');
 const registryPath = join(process.cwd(), 'lib', 'tools-registry.ts');
+const registryEntriesDir = join(process.cwd(), 'lib', 'tools-registry-data', 'entries');
 const featuredOgTools = JSON.parse(readFileSync(configPath, 'utf8'));
 
 const template = (title, background, gradient) => `import { ImageResponse } from 'next/og';
@@ -62,9 +63,17 @@ const getCandidateDirs = (relativePath) => [
   join(appRoot, '(tools)', relativePath),
 ];
 
-const registrySource = readFileSync(registryPath, 'utf8');
+const registrySources = [readFileSync(registryPath, 'utf8')];
+if (existsSync(registryEntriesDir)) {
+  const entryFiles = readdirSync(registryEntriesDir).filter((file) => file.endsWith('.ts'));
+  for (const file of entryFiles) {
+    registrySources.push(readFileSync(join(registryEntriesDir, file), 'utf8'));
+  }
+}
 const registryPaths = new Set(
-  Array.from(registrySource.matchAll(/path:\s*'([^']+)'/g)).map((match) => match[1]),
+  registrySources.flatMap((source) =>
+    Array.from(source.matchAll(/path:\s*'([^']+)'/g)).map((match) => match[1]),
+  ),
 );
 
 const missing = [];

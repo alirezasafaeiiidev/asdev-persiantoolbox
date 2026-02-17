@@ -19,7 +19,7 @@ export default function InterestRoute() {
     <div className="space-y-10">
       <InterestPage />
       <ToolSeoContent tool={tool} />
-      <FinanceTrustBlock />
+      <FinanceTrustBlock tool="interest" />
       <RelatedFinanceTools current="interest" />
     </div>
   );
