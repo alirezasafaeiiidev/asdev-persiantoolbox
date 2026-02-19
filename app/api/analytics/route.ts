@@ -5,7 +5,9 @@ import {
   type AnalyticsEvent,
 } from '@/lib/analyticsStore';
 import { requireAdminFromRequest } from '@/lib/server/adminAuth';
+import { logApiEvent } from '@/lib/server/request-observability';
 import { makeRateLimitKey, rateLimit } from '@/lib/server/rateLimit';
+import { rateLimitPolicies } from '@/lib/server/rateLimitPolicies';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -40,14 +42,13 @@ async function enforceRateLimitIfAvailable(request: Request): Promise<NextRespon
     return null;
   }
 
-  const limit = Number(process.env['ANALYTICS_RATE_LIMIT'] ?? '120');
-  const windowMs = Number(process.env['ANALYTICS_RATE_WINDOW_MS'] ?? '60000');
+  const { limit, windowMs, keyPrefix } = rateLimitPolicies.analyticsIngest;
   if (!Number.isFinite(limit) || limit <= 0 || !Number.isFinite(windowMs) || windowMs <= 0) {
     return null;
   }
 
   try {
-    const key = makeRateLimitKey('analytics_ingest', request);
+    const key = makeRateLimitKey(keyPrefix, request);
     const result = await rateLimit(key, { limit, windowMs });
     if (!result.allowed) {
       return NextResponse.json(
@@ -89,13 +90,26 @@ function validateAnalyticsSecurity(request: Request): NextResponse | null {
 }
 
 export async function POST(request: Request) {
+  logApiEvent(request, { route: '/api/analytics', event: 'request' });
   const securityError = validateAnalyticsSecurity(request);
   if (securityError) {
+    logApiEvent(request, {
+      route: '/api/analytics',
+      event: 'response',
+      status: securityError.status,
+      details: { reason: 'SECURITY_POLICY' },
+    });
     return securityError;
   }
 
   const rateLimitError = await enforceRateLimitIfAvailable(request);
   if (rateLimitError) {
+    logApiEvent(request, {
+      route: '/api/analytics',
+      event: 'response',
+      status: rateLimitError.status,
+      details: { reason: 'RATE_LIMITED' },
+    });
     return rateLimitError;
   }
 
@@ -135,13 +149,21 @@ export async function POST(request: Request) {
   }
 
   const summary = await ingestAnalyticsEvents(payload.events);
+  logApiEvent(request, { route: '/api/analytics', event: 'response', status: 200 });
   return NextResponse.json({ ok: true, summary });
 }
 
 export async function GET(request: Request) {
+  logApiEvent(request, { route: '/api/analytics', event: 'request' });
   try {
     const adminCheck = await requireAdminFromRequest(request);
     if (!adminCheck.ok) {
+      logApiEvent(request, {
+        route: '/api/analytics',
+        event: 'response',
+        status: adminCheck.status,
+        details: { reason: 'ADMIN_AUTH' },
+      });
       return NextResponse.json({ ok: false }, { status: adminCheck.status });
     }
   } catch {
@@ -151,9 +173,16 @@ export async function GET(request: Request) {
 
   const securityError = validateAnalyticsSecurity(request);
   if (securityError) {
+    logApiEvent(request, {
+      route: '/api/analytics',
+      event: 'response',
+      status: securityError.status,
+      details: { reason: 'SECURITY_POLICY' },
+    });
     return securityError;
   }
 
   const summary = await getAnalyticsSummary();
+  logApiEvent(request, { route: '/api/analytics', event: 'response', status: 200 });
   return NextResponse.json({ ok: true, summary });
 }
