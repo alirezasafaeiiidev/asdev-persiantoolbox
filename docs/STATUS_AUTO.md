@@ -2,23 +2,21 @@
 
 This file is generated. Do not edit manually.
 
-- generatedAt: 2026-02-19T21:15:15.558Z
-- completion: 3/24
-- remaining: 21
+- generatedAt: 2026-02-19T22:36:52.876Z
+- completion: 24/24
+- remaining: 0
 
 ## Phase Progress
 
 | Phase | Done | Total | Remaining |
 | ----- | ---: | ----: | --------: |
-| NP0   |    3 |    10 |         7 |
-| NP1   |    0 |     8 |         8 |
-| NP2   |    0 |     6 |         6 |
+| NP0   |   10 |    10 |         0 |
+| NP1   |    8 |     8 |         0 |
+| NP2   |    6 |     6 |         0 |
 
 ## Next Task
 
-- id: NP0-04
-- title: Restore monetization surfaces coherently (support/ads/plans/account)
-- spec: tasks-next/NP0-04.md
+- all tasks are DONE
 
 ## Latest Evidence Files
 

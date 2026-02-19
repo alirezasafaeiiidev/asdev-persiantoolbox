@@ -8,12 +8,12 @@ This file summarizes the current next-phase execution stance.
 
 ## Current Truth
 
-- Completed tasks: `3/24`
-- Remaining tasks: `21/24`
-- NP0 gate still open: `NP0-04..NP0-10`
+- Completed tasks: `24/24`
+- Remaining tasks: `0/24`
+- NP0 gate closed: all NP0 tasks DONE
 - Production/staging runtime is healthy but still on older behavior for multiple disabled surfaces.
 
 ## Execution Rule
 
-Complete NP0 first, then NP1, then NP2.
+All NP0/NP1/NP2 tasks are closed for this release train.
 No timeline commitments here; only dependency-driven sequencing.
