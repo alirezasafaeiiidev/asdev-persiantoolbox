@@ -70,11 +70,15 @@ export function mergeSiteSettings(
   values: Partial<PublicSiteSettings>,
   fallback: PublicSiteSettings = DEFAULT_SITE_SETTINGS,
 ): PublicSiteSettings {
+  const normalizedOrderUrl = normalizeOptionalUrl(values.orderUrl);
+  const normalizedPortfolioUrl = normalizeOptionalUrl(values.portfolioUrl);
+
   return {
     developerName: normalizeText(values.developerName, fallback.developerName, 80),
     developerBrandText: normalizeText(values.developerBrandText, fallback.developerBrandText, 240),
-    orderUrl: normalizeOptionalUrl(values.orderUrl) ?? fallback.orderUrl,
-    portfolioUrl: normalizeOptionalUrl(values.portfolioUrl) ?? fallback.portfolioUrl,
+    orderUrl: values.orderUrl === undefined ? fallback.orderUrl : normalizedOrderUrl,
+    portfolioUrl:
+      values.portfolioUrl === undefined ? fallback.portfolioUrl : normalizedPortfolioUrl,
   };
 }
 

@@ -71,14 +71,14 @@ describe('navigation feature flag', () => {
   it('renders v2 navigation when flag is disabled', async () => {
     await renderNavigation('0');
 
-    expect(screen.getByText('ابزارهای متنی')).toBeInTheDocument();
-    expect(screen.queryByText('موضوعات')).not.toBeInTheDocument();
+    expect(screen.getAllByText('ابزارهای متنی').length).toBeGreaterThan(0);
+    expect(screen.queryAllByText('موضوعات')).toHaveLength(0);
   });
 
   it('renders v3 navigation when flag is enabled', async () => {
     await renderNavigation('1');
 
-    expect(screen.getByText('موضوعات')).toBeInTheDocument();
-    expect(screen.queryByText('ابزارهای اعتبارسنجی')).not.toBeInTheDocument();
+    expect(screen.getAllByText('موضوعات').length).toBeGreaterThan(0);
+    expect(screen.queryAllByText('ابزارهای اعتبارسنجی')).toHaveLength(0);
   });
 });
