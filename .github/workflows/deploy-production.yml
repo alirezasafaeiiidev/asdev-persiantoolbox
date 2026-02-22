@@ -3,13 +3,13 @@ name: deploy-production
 on:
   push:
     branches:
-      - main
+      - integration/np0-03-linear
   workflow_dispatch:
     inputs:
       release_ref:
         description: 'Git ref (tag/branch/SHA) to deploy'
         required: true
-        default: 'main'
+        default: 'integration/np0-03-linear'
       run_migrations:
         description: 'Run database migrations'
         required: true
